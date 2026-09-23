@@ -1,13 +1,14 @@
 import React, { useEffect, useState } from 'react';
 import { Project } from '../data/projects';
 import { Maximize2, Check, X } from 'lucide-react';
+import { OpenEnquiryHandler } from '../types/enquiry';
 
 interface ProjectOverviewProps {
   project: Project;
-  onOpenSiteVisit: () => void;
+  onOpenEnquiry: OpenEnquiryHandler;
 }
 
-export const ProjectOverview: React.FC<ProjectOverviewProps> = ({ project, onOpenSiteVisit }) => {
+export const ProjectOverview: React.FC<ProjectOverviewProps> = ({ project, onOpenEnquiry }) => {
   const [activeImageIndex, setActiveImageIndex] = useState(0);
   const [fullscreenImage, setFullscreenImage] = useState<string | null>(null);
 
@@ -182,7 +183,7 @@ export const ProjectOverview: React.FC<ProjectOverviewProps> = ({ project, onOpe
 
               <div className="mt-8 pt-6 border-t border-stone-800">
                 <button
-                  onClick={onOpenSiteVisit}
+                  onClick={(event) => onOpenEnquiry('Site visit', event.currentTarget)}
                   className="w-full rounded-lg bg-amber-600 px-5 py-3 text-center text-xs font-semibold text-white shadow hover:bg-amber-500 transition-colors cursor-pointer"
                 >
                   Plan an On-Site Visit

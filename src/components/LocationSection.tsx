@@ -2,15 +2,16 @@ import React, { useState } from 'react';
 import { Project } from '../data/projects';
 import { MapPin, Navigation, Clock, Train, Briefcase, GraduationCap, Hospital, ShoppingBag } from 'lucide-react';
 import { SITE_CONFIG } from '../config/site';
+import { OpenEnquiryHandler } from '../types/enquiry';
 
 interface LocationSectionProps {
   project: Project;
-  onOpenSiteVisit: () => void;
+  onOpenEnquiry: OpenEnquiryHandler;
 }
 
 export const LocationSection: React.FC<LocationSectionProps> = ({
   project,
-  onOpenSiteVisit,
+  onOpenEnquiry,
 }) => {
   const [selectedCategory, setSelectedCategory] = useState<string>('All');
   const landmarks = project.connectivity;
@@ -151,7 +152,7 @@ export const LocationSection: React.FC<LocationSectionProps> = ({
 
               <div className="mt-6 pt-4 border-t border-stone-800 flex flex-col gap-2.5">
                 <button
-                  onClick={onOpenSiteVisit}
+                  onClick={(event) => onOpenEnquiry('Site visit', event.currentTarget)}
                   className="w-full flex items-center justify-center gap-2 rounded-lg bg-amber-600 px-4 py-3 text-xs font-semibold text-white shadow hover:bg-amber-500 transition-colors cursor-pointer"
                 >
                   <Navigation className="h-3.5 w-3.5" />

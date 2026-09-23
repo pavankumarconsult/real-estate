@@ -1,13 +1,14 @@
 import React from 'react';
 import { Calendar, ChevronRight, ShieldCheck, MapPin } from 'lucide-react';
 import { Project } from '../data/projects';
+import { OpenEnquiryHandler } from '../types/enquiry';
 
 interface HeroProps {
   project: Project;
-  onOpenSiteVisit: () => void;
+  onOpenEnquiry: OpenEnquiryHandler;
 }
 
-export const Hero: React.FC<HeroProps> = ({ project, onOpenSiteVisit }) => {
+export const Hero: React.FC<HeroProps> = ({ project, onOpenEnquiry }) => {
   return (
     <section className="relative overflow-hidden bg-stone-900 text-white">
       {/* Background Image with Scrim */}
@@ -54,7 +55,7 @@ export const Hero: React.FC<HeroProps> = ({ project, onOpenSiteVisit }) => {
         {/* Primary CTAs */}
         <div className="mt-8 flex flex-wrap items-center gap-4">
           <button
-            onClick={onOpenSiteVisit}
+            onClick={(event) => onOpenEnquiry('Site visit', event.currentTarget)}
             className="group inline-flex items-center gap-2 rounded-lg bg-amber-600 px-6 py-3.5 text-sm font-semibold text-white shadow-lg shadow-amber-900/30 transition-all hover:bg-amber-500 hover:shadow-xl active:scale-98 cursor-pointer whitespace-nowrap"
           >
             <Calendar className="h-4 w-4 text-amber-100" />

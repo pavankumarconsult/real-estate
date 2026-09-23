@@ -2,13 +2,14 @@ import React, { useState } from 'react';
 import { Menu, X, Phone, Calendar, Building2 } from 'lucide-react';
 import { Project } from '../data/projects';
 import { getPhoneHref, SITE_CONFIG } from '../config/site';
+import { OpenEnquiryHandler } from '../types/enquiry';
 
 interface NavbarProps {
   currentProject: Project;
-  onOpenSiteVisit: () => void;
+  onOpenEnquiry: OpenEnquiryHandler;
 }
 
-export const Navbar: React.FC<NavbarProps> = ({ currentProject, onOpenSiteVisit }) => {
+export const Navbar: React.FC<NavbarProps> = ({ currentProject, onOpenEnquiry }) => {
   const [mobileMenuOpen, setMobileMenuOpen] = useState(false);
 
   return (
@@ -63,7 +64,7 @@ export const Navbar: React.FC<NavbarProps> = ({ currentProject, onOpenSiteVisit 
           )}
 
           <button
-            onClick={onOpenSiteVisit}
+            onClick={(event) => onOpenEnquiry('Site visit', event.currentTarget)}
             className="inline-flex items-center gap-2 rounded-lg bg-stone-900 px-4 py-2.5 text-xs font-medium text-white shadow-sm transition-all hover:bg-stone-800 hover:shadow active:scale-95 whitespace-nowrap cursor-pointer"
           >
             <Calendar className="h-3.5 w-3.5 text-amber-400" />
@@ -131,16 +132,16 @@ export const Navbar: React.FC<NavbarProps> = ({ currentProject, onOpenSiteVisit 
             >
               Technical Specifications
             </a>
-            <a
-              href="#sitevisit"
-              onClick={() => {
+            <button
+              type="button"
+              onClick={(event) => {
                 setMobileMenuOpen(false);
-                onOpenSiteVisit();
+                onOpenEnquiry('Site visit', event.currentTarget);
               }}
-              className="pt-2 text-amber-800 font-semibold flex items-center gap-2"
+              className="flex items-center gap-2 pt-2 text-left font-semibold text-amber-800"
             >
               <Calendar className="h-4 w-4" /> Preview Site Visit Request
-            </a>
+            </button>
           </div>
 
           {SITE_CONFIG.phone && (

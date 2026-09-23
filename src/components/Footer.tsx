@@ -1,14 +1,15 @@
 import React from 'react';
 import { Building2, Phone, Mail, MapPin, ShieldCheck, MessageCircle } from 'lucide-react';
 import { Project } from '../data/projects';
-import { getPhoneHref, SITE_CONFIG } from '../config/site';
+import { getPhoneHref, getWhatsAppHref, SITE_CONFIG } from '../config/site';
+import { OpenEnquiryHandler } from '../types/enquiry';
 
 interface FooterProps {
   project: Project;
-  onOpenSiteVisit: () => void;
+  onOpenEnquiry: OpenEnquiryHandler;
 }
 
-export const Footer: React.FC<FooterProps> = ({ project, onOpenSiteVisit }) => {
+export const Footer: React.FC<FooterProps> = ({ project, onOpenEnquiry }) => {
   return (
     <footer className="bg-stone-950 text-stone-300 pt-16 pb-12 border-t border-stone-800">
       <div className="mx-auto max-w-7xl px-4 sm:px-6 lg:px-8">
@@ -73,7 +74,7 @@ export const Footer: React.FC<FooterProps> = ({ project, onOpenSiteVisit }) => {
             <ul className="space-y-2.5 text-xs text-stone-400">
               <li>
                 <button
-                  onClick={onOpenSiteVisit}
+                  onClick={(event) => onOpenEnquiry('Site visit', event.currentTarget)}
                   className="hover:text-amber-400 transition-colors text-left cursor-pointer"
                 >
                   Plan a Site Visit
@@ -81,7 +82,7 @@ export const Footer: React.FC<FooterProps> = ({ project, onOpenSiteVisit }) => {
               </li>
               <li>
                 <button
-                  onClick={onOpenSiteVisit}
+                  onClick={(event) => onOpenEnquiry('Pickup assistance', event.currentTarget)}
                   className="hover:text-amber-400 transition-colors text-left cursor-pointer"
                 >
                   Pickup Assistance Preference
@@ -124,15 +125,15 @@ export const Footer: React.FC<FooterProps> = ({ project, onOpenSiteVisit }) => {
                   </a>
                 </div>
               )}
-              {SITE_CONFIG.whatsappUrl && (
+              {SITE_CONFIG.whatsappNumber && (
                 <div className="flex items-center gap-2">
                   <MessageCircle className="h-4 w-4 text-amber-500 shrink-0" />
-                  <a href={SITE_CONFIG.whatsappUrl} target="_blank" rel="noreferrer" className="hover:text-white">
+                  <a href={getWhatsAppHref(SITE_CONFIG.whatsappNumber, project.name) ?? undefined} target="_blank" rel="noopener noreferrer" className="hover:text-white">
                     WhatsApp
                   </a>
                 </div>
               )}
-              {!SITE_CONFIG.phone && !SITE_CONFIG.email && !SITE_CONFIG.whatsappUrl && (
+              {!SITE_CONFIG.phone && !SITE_CONFIG.email && !SITE_CONFIG.whatsappNumber && (
                 <p className="text-stone-500">Verified sales contact details are pending.</p>
               )}
             </div>

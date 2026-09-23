@@ -1,14 +1,15 @@
 import React, { useState } from 'react';
 import { Project } from '../data/projects';
+import { OpenEnquiryHandler } from '../types/enquiry';
 
 interface AmenitiesSectionProps {
   project: Project;
-  onOpenSiteVisit: () => void;
+  onOpenEnquiry: OpenEnquiryHandler;
 }
 
 export const AmenitiesSection: React.FC<AmenitiesSectionProps> = ({
   project,
-  onOpenSiteVisit,
+  onOpenEnquiry,
 }) => {
   const [selectedCategory, setSelectedCategory] = useState<string>('All');
   const amenities = project.amenities;
@@ -92,7 +93,7 @@ export const AmenitiesSection: React.FC<AmenitiesSectionProps> = ({
 
             <div className="mt-8 pt-6 border-t border-stone-700">
               <button
-                onClick={onOpenSiteVisit}
+                onClick={(event) => onOpenEnquiry('Amenities tour', event.currentTarget)}
                 className="w-full rounded-lg bg-amber-600 px-5 py-3 text-center text-xs font-semibold text-white shadow hover:bg-amber-500 transition-colors cursor-pointer"
               >
                 Plan an Amenities Tour

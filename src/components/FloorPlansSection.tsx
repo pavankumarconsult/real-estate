@@ -1,5 +1,6 @@
 import React, { useState } from 'react';
 import { Project } from '../data/projects';
+import { OpenEnquiryHandler } from '../types/enquiry';
 import { 
   Compass, 
   Check, 
@@ -11,12 +12,12 @@ import {
 
 interface FloorPlansSectionProps {
   project: Project;
-  onSelectPlanForVisit: (planName: string) => void;
+  onOpenEnquiry: OpenEnquiryHandler;
 }
 
 export const FloorPlansSection: React.FC<FloorPlansSectionProps> = ({
   project,
-  onSelectPlanForVisit,
+  onOpenEnquiry,
 }) => {
   const floorPlans = project.floorPlans;
   const [activePlanId, setActivePlanId] = useState(floorPlans[0].id);
@@ -426,7 +427,7 @@ export const FloorPlansSection: React.FC<FloorPlansSectionProps> = ({
             {/* Actions: Direct Site Visit Booking & Brochure Download */}
             <div className="space-y-3">
               <button
-                onClick={() => onSelectPlanForVisit(currentPlan.name)}
+                onClick={(event) => onOpenEnquiry('Site visit', event.currentTarget, currentPlan.name)}
                 className="w-full flex items-center justify-center gap-2 rounded-lg bg-stone-900 px-5 py-3.5 text-xs font-semibold text-white shadow hover:bg-stone-800 transition-colors cursor-pointer"
               >
                 <Calendar className="h-4 w-4 text-amber-400" />
