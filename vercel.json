@@ -11,6 +11,18 @@
     {
       "source": "/thank-you",
       "destination": "/index.html"
+    },
+    {
+      "source": "/disclaimer",
+      "destination": "/index.html"
+    },
+    {
+      "source": "/privacy-policy",
+      "destination": "/index.html"
+    },
+    {
+      "source": "/terms-and-conditions",
+      "destination": "/index.html"
     }
   ]
 }

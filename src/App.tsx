@@ -15,6 +15,7 @@ import { Footer } from './components/Footer';
 import { EnquiryModal } from './components/EnquiryModal';
 import { FloatingActions } from './components/FloatingActions';
 import { ThankYouPage } from './components/ThankYouPage';
+import { DisclaimerPage, PrivacyPolicyPage, TermsAndConditionsPage } from './components/PublicInformationPages';
 import { EnquiryIntent, OpenEnquiryHandler } from './types/enquiry';
 
 const ENQUIRY_SESSION_KEY = 'team4-aria:enquiry-seen';
@@ -114,6 +115,18 @@ export default function App() {
 
   if (currentPath === '/thank-you') {
     return <ThankYouPage />;
+  }
+
+  if (currentPath === '/disclaimer') {
+    return <DisclaimerPage />;
+  }
+
+  if (currentPath === '/privacy-policy') {
+    return <PrivacyPolicyPage />;
+  }
+
+  if (currentPath === '/terms-and-conditions') {
+    return <TermsAndConditionsPage />;
   }
 
   return (

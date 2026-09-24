@@ -116,3 +116,29 @@ test('a direct Thank You visit creates no lead and exposes a way back', async ({
   const successEvents = await page.evaluate(() => (window.dataLayer ?? []).filter((entry) => entry.event === 'lead_form_success'));
   expect(successEvents).toHaveLength(0);
 });
+
+test('information pages support direct visits, mobile layout, footer links, and return navigation', async ({ page }) => {
+  await suppressAutoOpen(page);
+  const pages = [
+    { path: '/disclaimer', heading: 'Disclaimer' },
+    { path: '/privacy-policy', heading: 'Privacy Policy' },
+    { path: '/terms-and-conditions', heading: 'Terms & Conditions' },
+  ];
+
+  for (const informationPage of pages) {
+    const response = await page.goto(informationPage.path);
+    expect(response?.ok()).toBe(true);
+    await expect(page.getByRole('heading', { level: 1, name: informationPage.heading })).toBeVisible();
+    await expect(page.getByRole('link', { name: 'Back to project' })).toHaveAttribute('href', '/');
+    expect(await page.evaluate(() => document.documentElement.scrollWidth <= document.documentElement.clientWidth)).toBe(true);
+  }
+
+  await expect(page.getByRole('article').getByRole('link', { name: 'Privacy Policy' })).toHaveAttribute('href', '/privacy-policy');
+  await page.getByRole('link', { name: 'Back to project' }).click();
+  await expect(page).toHaveURL(/\/$/);
+
+  const informationLinks = page.getByRole('navigation', { name: 'Information pages' });
+  await expect(informationLinks.getByRole('link', { name: 'Disclaimer' })).toHaveAttribute('href', '/disclaimer');
+  await expect(informationLinks.getByRole('link', { name: 'Privacy Policy' })).toHaveAttribute('href', '/privacy-policy');
+  await expect(informationLinks.getByRole('link', { name: 'Terms & Conditions' })).toHaveAttribute('href', '/terms-and-conditions');
+});

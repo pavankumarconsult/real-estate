@@ -59,13 +59,13 @@ export const Footer: React.FC<FooterProps> = ({ project, onOpenEnquiry }) => (
             www.digystate.com
           </a>
         </div>
-        <p className="max-w-full break-words pt-1">
-          <span>Disclaimer</span>
+        <nav aria-label="Information pages" className="max-w-full break-words pt-1">
+          <a href="/disclaimer" className="transition-colors hover:text-stone-100">Disclaimer</a>
           <span aria-hidden="true"> | </span>
-          <span>Privacy Policy</span>
+          <a href="/privacy-policy" className="transition-colors hover:text-stone-100">Privacy Policy</a>
           <span aria-hidden="true"> | </span>
-          <span>Terms &amp; Conditions</span>
-        </p>
+          <a href="/terms-and-conditions" className="transition-colors hover:text-stone-100">Terms &amp; Conditions</a>
+        </nav>
       </div>
     </div>
   </footer>
