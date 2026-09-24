@@ -20,10 +20,12 @@ export const FloorPlansSection: React.FC<FloorPlansSectionProps> = ({
   onOpenEnquiry,
 }) => {
   const floorPlans = project.floorPlans;
-  const [activePlanId, setActivePlanId] = useState(floorPlans[0].id);
+  const [activePlanId, setActivePlanId] = useState(floorPlans[0]?.id ?? '');
   const [showCostEstimator, setShowCostEstimator] = useState(false);
 
   const currentPlan = floorPlans.find((p) => p.id === activePlanId) || floorPlans[0];
+
+  if (!currentPlan) return null;
 
   const baseRate = project.illustrativeRatePerSqFt;
   const illustrativeBaseCost = baseRate ? currentPlan.superBuiltUpArea * baseRate : null;
@@ -54,7 +56,7 @@ export const FloorPlansSection: React.FC<FloorPlansSectionProps> = ({
           </div>
 
           {/* Action buttons */}
-          <div className="flex items-center gap-3">
+          {project.illustrativeRatePerSqFt && <div className="flex items-center gap-3">
             <button
               onClick={() => setShowCostEstimator(!showCostEstimator)}
               className="inline-flex items-center gap-2 rounded-lg border border-stone-300 bg-stone-50 px-4 py-2.5 text-xs font-semibold text-stone-700 hover:bg-stone-100 transition-colors cursor-pointer"
@@ -62,7 +64,7 @@ export const FloorPlansSection: React.FC<FloorPlansSectionProps> = ({
               <Calculator className="h-4 w-4 text-amber-700" />
               <span>{showCostEstimator ? 'Hide Illustration' : 'Illustrative Price Calculator'}</span>
             </button>
-          </div>
+          </div>}
         </div>
 
         {/* Floor Plan Selector Tabs (Interactive filter buttons adhering to constitution) */}
@@ -121,7 +123,7 @@ export const FloorPlansSection: React.FC<FloorPlansSectionProps> = ({
                 <span className="text-stone-500">Reference rate</span>
                 <div className="mt-1 font-semibold text-stone-900 tabular-nums">{baseRate ? `${formatINR(baseRate)} / sq.ft` : 'Not configured'}</div>
                 <div className="text-[10px] text-amber-700 mt-0.5">
-                  {project.pricingVerified ? 'Configured project reference rate' : 'Unconfirmed—verify with developer'}
+                  {project.pricingVerified ? 'Configured project reference rate' : 'Unconfirmed—verify with the project representative'}
                 </div>
               </div>
               <div className="p-3 bg-white rounded-lg border border-amber-100">
@@ -434,7 +436,7 @@ export const FloorPlansSection: React.FC<FloorPlansSectionProps> = ({
                 <span>Schedule Visit for {currentPlan.name}</span>
               </button>
 
-              {project.brochureUrl ? (
+              {project.brochureUrl && (
                 <a
                   href={project.brochureUrl}
                   download
@@ -443,15 +445,6 @@ export const FloorPlansSection: React.FC<FloorPlansSectionProps> = ({
                   <Download className="h-4 w-4 text-stone-500" />
                   <span>Download Project Brochure</span>
                 </a>
-              ) : (
-                <button
-                  type="button"
-                  disabled
-                  className="w-full flex items-center justify-center gap-2 rounded-lg border border-stone-200 bg-stone-100 px-5 py-3 text-xs font-semibold text-stone-500 cursor-not-allowed"
-                >
-                  <Download className="h-4 w-4 text-stone-400" />
-                  <span>Brochure Not Yet Provided</span>
-                </button>
               )}
             </div>
           </div>

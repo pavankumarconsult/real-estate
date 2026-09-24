@@ -50,7 +50,7 @@ export const ProjectPortfolioBar: React.FC<ProjectPortfolioBarProps> = ({
               <span>Project Information Overview</span>
             </span>
             <span className="hidden sm:inline" aria-hidden="true">·</span>
-            <span className="tabular-nums">Possession {currentProject.possessionDate}</span>
+            <span className="tabular-nums">Expected possession: {currentProject.possessionDate}</span>
           </div>
         </div>
       </div>

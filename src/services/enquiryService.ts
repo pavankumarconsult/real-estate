@@ -1,24 +1,21 @@
 import { SITE_CONFIG } from '../config/site';
 import { EnquiryPayload, EnquirySubmissionResult } from '../types/enquiry';
 
-/**
- * Single delivery seam for every enquiry form submission.
- * With no approved endpoint, the form remains a local-only demo.
- */
-export async function submitEnquiry(payload: EnquiryPayload): Promise<EnquirySubmissionResult> {
-  if (!SITE_CONFIG.enquiryDeliveryUrl) {
-    return { status: 'demo' };
-  }
+/** Prepare a WhatsApp draft. The visitor must still press Send in WhatsApp. */
+export function prepareWhatsAppEnquiry(payload: EnquiryPayload): EnquirySubmissionResult {
+  const messageLines = [
+    SITE_CONFIG.whatsappMessageTemplate.replace('{projectName}', payload.projectName),
+    '',
+    `Name: ${payload.name}`,
+    `Mobile: +91 ${payload.mobile}`,
+    payload.email ? `Email: ${payload.email}` : null,
+    `Project: ${payload.projectName}`,
+    `Enquiry type: ${payload.intent}`,
+    payload.context ? `Context: ${payload.context}` : null,
+  ].filter((line): line is string => Boolean(line));
 
-  const response = await fetch(SITE_CONFIG.enquiryDeliveryUrl, {
-    method: 'POST',
-    headers: { 'Content-Type': 'application/json' },
-    body: JSON.stringify(payload),
-  });
-
-  if (!response.ok) {
-    throw new Error(`Enquiry delivery failed with status ${response.status}`);
-  }
-
-  return { status: 'delivered' };
+  return {
+    status: 'whatsapp-opened',
+    whatsappUrl: `https://wa.me/${SITE_CONFIG.whatsappNumber}?text=${encodeURIComponent(messageLines.join('\n'))}`,
+  };
 }

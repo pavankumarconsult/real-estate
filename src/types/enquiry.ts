@@ -3,13 +3,14 @@ export const ENQUIRY_INTENTS = [
   'Site visit',
   'Callback request',
   'Price enquiry',
-  'Floor plan enquiry',
-  'Amenities tour',
-  'Pickup assistance',
-  'Brochure request',
 ] as const;
 
-export type EnquiryIntent = (typeof ENQUIRY_INTENTS)[number];
+export type EnquiryIntent =
+  | (typeof ENQUIRY_INTENTS)[number]
+  | 'Floor plan enquiry'
+  | 'Amenities tour'
+  | 'Pickup assistance'
+  | 'Brochure request';
 
 export interface EnquiryPayload {
   name: string;
@@ -22,9 +23,10 @@ export interface EnquiryPayload {
   consent: true;
 }
 
-export type EnquirySubmissionResult =
-  | { status: 'demo' }
-  | { status: 'delivered' };
+export interface EnquirySubmissionResult {
+  status: 'whatsapp-opened';
+  whatsappUrl: string;
+}
 
 export type OpenEnquiryHandler = (
   intent: EnquiryIntent,
