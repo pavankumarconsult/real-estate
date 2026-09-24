@@ -15,6 +15,7 @@ import amphitheatre from '../assets/media/amphitheatre.webp';
 import centralCourtyard from '../assets/media/centralcourtyard.webp';
 import tenBadmintonCourts from '../assets/media/tenbadmintoncourts.webp';
 import olympicSizeSwimmingPools from '../assets/media/olympicsizeswimmingpools.webp';
+import sitePlanImage from '../assets/media/slite-plan.png';
 
 import brochurePdf from '../assets/media/Team 4 Lifespaces_Aria_Brochure_Compressed.pdf?url';
 import sitePlanPdf from '../assets/media/GP2354-CD-MP-00-140 ( Site Plan with Full Balconies).pdf?url';
@@ -64,6 +65,8 @@ export const AMENITY_MEDIA: AmenityMedia[] = [
   { name: 'Ten Badminton Courts', image: tenBadmintonCourts, alt: 'Ten Badminton Courts at Team4 Aria' },
   { name: 'Olympic-size Swimming Pools', image: olympicSizeSwimmingPools, alt: 'Olympic-size Swimming Pools at Team4 Aria' },
 ];
+
+export const SITE_PLAN_IMAGE = sitePlanImage;
 
 export const PROJECT_DOCUMENTS = {
   brochure: {
