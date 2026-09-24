@@ -19,7 +19,7 @@ export const Footer: React.FC<FooterProps> = ({ project, onOpenEnquiry }) => (
             <span>{SITE_CONFIG.businessName}</span>
           </div>
           <p className="max-w-sm text-xs leading-relaxed text-stone-400">Project information for {project.name} at {project.location.address}.</p>
-          <p className="max-w-md text-[11px] leading-relaxed text-stone-500">{SITE_CONFIG.businessName} is the display brand for this website. It is not presented as the project developer or an official Team4 entity.</p>
+          <p className="max-w-md text-[11px] leading-relaxed text-stone-500">{project.name} is the property featured on this landing page. This website does not claim to be the developer&apos;s official website.</p>
         </div>
 
         <div>
@@ -45,9 +45,15 @@ export const Footer: React.FC<FooterProps> = ({ project, onOpenEnquiry }) => (
         </div>
       </div>
 
-      <div className="flex flex-col items-center justify-between gap-4 pt-8 text-[11px] text-stone-500 md:flex-row">
-        <p>Project details and starting price are client-supplied and may change. Expected possession: {project.possessionDate}; this is not a guaranteed handover date.</p>
-        <div className="whitespace-nowrap">{SITE_CONFIG.businessName} · Display brand</div>
+      <div className="flex flex-col items-center gap-3 pt-8 text-center text-[11px] leading-relaxed text-stone-500">
+        <p className="max-w-full">© 2026 Digystate Digital Marketing Agency. All rights reserved.</p>
+        <p className="max-w-full break-words">
+          <span>Disclaimer</span>
+          <span aria-hidden="true"> | </span>
+          <span>Privacy Policy</span>
+          <span aria-hidden="true"> | </span>
+          <span>Terms &amp; Conditions</span>
+        </p>
       </div>
     </div>
   </footer>
