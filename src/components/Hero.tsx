@@ -95,7 +95,7 @@ export const Hero: React.FC<HeroProps> = ({ project, onOpenEnquiry }) => {
             {project.tagline}
           </p>
           <p className="mt-5 max-w-2xl text-base leading-relaxed text-stone-200 sm:text-lg">
-            {project.overview.sizes} · {project.priceStarting} · {project.overview.openSpace} open space
+            {project.overview.sizes} · {project.overview.openSpace} open space
           </p>
         </div>
 

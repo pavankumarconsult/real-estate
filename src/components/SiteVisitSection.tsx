@@ -33,7 +33,7 @@ export function SiteVisitSection({ project, onOpenEnquiry }: SiteVisitSectionPro
             <div className="rounded-2xl border border-stone-200 bg-white p-6 shadow-xs">
               <MapPin className="h-6 w-6 text-amber-800" />
               <h3 className="mt-4 font-serif text-lg text-stone-900">Await confirmation</h3>
-              <p className="mt-2 text-xs leading-relaxed text-stone-600">Opening WhatsApp does not confirm a visit, availability, or pricing.</p>
+              <p className="mt-2 text-xs leading-relaxed text-stone-600">Opening WhatsApp does not confirm a visit or availability.</p>
             </div>
           </div>
 

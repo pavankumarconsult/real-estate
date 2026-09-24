@@ -2,7 +2,6 @@ export const ENQUIRY_INTENTS = [
   'General enquiry',
   'Site visit',
   'Callback request',
-  'Price enquiry',
 ] as const;
 
 export type EnquiryIntent =

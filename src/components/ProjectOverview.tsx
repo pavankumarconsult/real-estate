@@ -77,23 +77,23 @@ export const ProjectOverview: React.FC<ProjectOverviewProps> = ({ project, onOpe
                   </button>
                 ))}
               </div>
-              <p className="text-xs leading-relaxed text-stone-500">Existing project visuals are retained as placeholders. Client usage approval and final asset confirmation are still required.</p>
+              <p className="text-xs leading-relaxed text-stone-500">Images in this gallery are taken from the supplied Team4 Aria brochure.</p>
             </div>
           )}
 
-          <div id="pricing" className="scroll-mt-24 space-y-6 lg:col-span-5">
+          <div id="project-details" className="scroll-mt-24 space-y-6 lg:col-span-5">
             <div className="rounded-2xl bg-stone-900 p-8 text-stone-100 shadow-md">
-              <div className="text-xs font-semibold uppercase tracking-widest text-amber-400">Pricing & unit information</div>
+              <div className="text-xs font-semibold uppercase tracking-widest text-amber-400">Project information</div>
               <h3 className="mt-2 font-serif text-2xl font-normal text-stone-50">Approved project details</h3>
               <dl className="mt-6 divide-y divide-stone-800 border-y border-stone-800 text-sm">
                 {[
                   ['Size range', project.overview.sizes],
-                  ['Price', project.priceStarting],
                   ['Land area', project.overview.landParcel],
                   ['Towers', String(project.overview.towers)],
                   ['Floors', project.overview.floors],
                   ['Open space', project.overview.openSpace],
                   ['Possession', `Expected possession: ${project.possessionDate}`],
+                  ...(project.reraNumber ? [['RERA No:', project.reraNumber]] : []),
                 ].map(([label, value]) => (
                   <div key={label} className="flex items-start justify-between gap-4 py-3.5">
                     <dt className="text-stone-400">{label}</dt>
@@ -101,12 +101,11 @@ export const ProjectOverview: React.FC<ProjectOverviewProps> = ({ project, onOpe
                   </div>
                 ))}
               </dl>
-              <p className="mt-4 text-xs leading-relaxed text-stone-400">{project.pricingNotice}</p>
               <div className="mt-7 grid gap-3 sm:grid-cols-2">
                 <a href={getPhoneHref()} className="inline-flex items-center justify-center gap-2 rounded-lg bg-amber-600 px-5 py-3 text-xs font-semibold text-white hover:bg-amber-500">
                   <Phone className="h-4 w-4" /> Call Now
                 </a>
-                <button type="button" onClick={(event) => onOpenEnquiry('Price enquiry', event.currentTarget)} className="inline-flex items-center justify-center gap-2 rounded-lg border border-stone-700 px-5 py-3 text-xs font-semibold text-stone-100 hover:bg-stone-800">
+                <button type="button" onClick={(event) => onOpenEnquiry('General enquiry', event.currentTarget)} className="inline-flex items-center justify-center gap-2 rounded-lg border border-stone-700 px-5 py-3 text-xs font-semibold text-stone-100 hover:bg-stone-800">
                   <MessageSquareText className="h-4 w-4" /> Ask on WhatsApp
                 </button>
               </div>
@@ -121,7 +120,7 @@ export const ProjectOverview: React.FC<ProjectOverviewProps> = ({ project, onOpe
             <button type="button" onClick={() => setFullscreenImage(null)} className="absolute right-4 top-4 z-10 rounded-full bg-black/60 p-2 text-white hover:bg-black/90" aria-label="Close full-screen image">
               <X className="h-6 w-6" />
             </button>
-            <img src={fullscreenImage} alt="Team4 Aria project visual; usage approval pending" className="max-h-[85vh] w-auto rounded-lg object-contain" />
+            <img src={fullscreenImage} alt="Team4 Aria brochure visual" className="max-h-[85vh] w-auto rounded-lg object-contain" />
           </div>
         </div>
       )}

@@ -1,21 +1,15 @@
-import slider1 from '../assets/images/slider1.jpg';
-import slider2 from '../assets/images/slider2.jpg';
-import slider3 from '../assets/media/slider3.webp';
-import slider4 from '../assets/media/slider4.webp';
-
-import grandClubhouse from '../assets/media/grandclubhouse.webp';
-import swimmingPool from '../assets/media/swimmingpool.webp';
-import landscapedGarden from '../assets/media/landscapedgarden.webp';
-import gymnasium from '../assets/media/gymnasium.webp';
-import joggingTrack from '../assets/media/joggingtrack.webp';
-import yogaZone from '../assets/media/yogazone.webp';
-import kidsPlayArea from '../assets/media/kidsplayarea.webp';
-import indoorGamesArea from '../assets/media/indoorgamesarea.webp';
-import amphitheatre from '../assets/media/amphitheatre.webp';
-import centralCourtyard from '../assets/media/centralcourtyard.webp';
-import tenBadmintonCourts from '../assets/media/tenbadmintoncourts.webp';
-import olympicSizeSwimmingPools from '../assets/media/olympicsizeswimmingpools.webp';
-import sitePlanImage from '../assets/media/slite-plan.png';
+import brochureCover from '../assets/media/Screenshot 2026-09-24 122811.png';
+import brochureStreetView from '../assets/media/Screenshot 2026-09-24 122823.png';
+import brochureTowerElevation from '../assets/media/Screenshot 2026-09-24 122836.png';
+import brochureAerialView from '../assets/media/Screenshot 2026-09-24 122849.png';
+import brochureEntrance from '../assets/media/Screenshot 2026-09-24 122859.png';
+import brochureModel from '../assets/media/Screenshot 2026-09-24 122911.png';
+import brochureElevatedLiving from '../assets/media/Screenshot 2026-09-24 122923.png';
+import brochureCourtyard from '../assets/media/Screenshot 2026-09-24 122936.png';
+import brochureAmenitySpaces from '../assets/media/Screenshot 2026-09-24 122946.png';
+import brochureClubhouse from '../assets/media/Screenshot 2026-09-24 123005.png';
+import brochureSportsComplex from '../assets/media/Screenshot 2026-09-24 123025.png';
+import brochureNightElevation from '../assets/media/Screenshot 2026-09-24 123038.png';
 
 import brochurePdf from '../assets/media/Team 4 Lifespaces_Aria_Brochure_Compressed.pdf?url';
 import sitePlanPdf from '../assets/media/GP2354-CD-MP-00-140 ( Site Plan with Full Balconies).pdf?url';
@@ -36,6 +30,12 @@ export interface AmenityMedia {
   alt: string;
 }
 
+export interface GalleryMedia {
+  url: string;
+  caption: string;
+  category: string;
+}
+
 export interface ProjectDocument {
   id: string;
   title: string;
@@ -45,28 +45,25 @@ export interface ProjectDocument {
 }
 
 export const HERO_SLIDES: HeroSlide[] = [
-  { src: slider1, positionClass: 'object-[52%_center] sm:object-center' },
-  { src: slider2, positionClass: 'object-[58%_center] sm:object-center' },
-  { src: slider3, positionClass: 'object-center' },
-  { src: slider4, positionClass: 'object-center' },
+  { src: brochureTowerElevation, positionClass: 'object-center' },
+  { src: brochureAerialView, positionClass: 'object-center' },
+  { src: brochureEntrance, positionClass: 'object-center' },
+  { src: brochureElevatedLiving, positionClass: 'object-center' },
 ];
 
 export const AMENITY_MEDIA: AmenityMedia[] = [
-  { name: 'Grand Clubhouse', image: grandClubhouse, alt: 'Grand Clubhouse at Team4 Aria' },
-  { name: 'Swimming Pool', image: swimmingPool, alt: 'Swimming Pool at Team4 Aria' },
-  { name: 'Landscaped Garden', image: landscapedGarden, alt: 'Landscaped Garden at Team4 Aria' },
-  { name: 'Gymnasium', image: gymnasium, alt: 'Gymnasium at Team4 Aria' },
-  { name: 'Jogging Track', image: joggingTrack, alt: 'Jogging Track at Team4 Aria' },
-  { name: 'Yoga Zone', image: yogaZone, alt: 'Yoga Zone at Team4 Aria' },
-  { name: 'Kids’ Play Area', image: kidsPlayArea, alt: 'Kids’ Play Area at Team4 Aria' },
-  { name: 'Indoor Games Area', image: indoorGamesArea, alt: 'Indoor Games Area at Team4 Aria' },
-  { name: 'Amphitheatre', image: amphitheatre, alt: 'Amphitheatre at Team4 Aria' },
-  { name: 'Central Courtyard', image: centralCourtyard, alt: 'Central Courtyard at Team4 Aria' },
-  { name: 'Ten Badminton Courts', image: tenBadmintonCourts, alt: 'Ten Badminton Courts at Team4 Aria' },
-  { name: 'Olympic-size Swimming Pools', image: olympicSizeSwimmingPools, alt: 'Olympic-size Swimming Pools at Team4 Aria' },
+  { name: 'Landscaped Courtyard', image: brochureCourtyard, alt: 'Landscaped courtyard shown in the Team4 Aria brochure' },
+  { name: 'Podium Amenity Spaces', image: brochureAmenitySpaces, alt: 'Podium amenity spaces shown in the Team4 Aria brochure' },
+  { name: 'Clubhouse', image: brochureClubhouse, alt: 'Clubhouse and pool shown in the Team4 Aria brochure' },
+  { name: 'Sports Complex', image: brochureSportsComplex, alt: 'Sports complex shown in the Team4 Aria brochure' },
 ];
 
-export const SITE_PLAN_IMAGE = sitePlanImage;
+export const PROJECT_GALLERY_MEDIA: GalleryMedia[] = [
+  { url: brochureStreetView, caption: 'Project setting shown in the supplied brochure', category: 'Brochure visual' },
+  { url: brochureModel, caption: 'Architectural model shown in the supplied brochure', category: 'Brochure visual' },
+  { url: brochureNightElevation, caption: 'Night elevation shown in the supplied brochure', category: 'Brochure visual' },
+  { url: brochureCover, caption: 'Team4 Aria brochure cover', category: 'Project identity' },
+];
 
 export const PROJECT_DOCUMENTS = {
   brochure: {

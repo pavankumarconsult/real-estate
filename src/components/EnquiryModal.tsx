@@ -156,7 +156,7 @@ export function EnquiryModal({ isOpen, project, intent, context, returnFocusElem
             <div className="pr-8">
               <div className="text-xs font-bold uppercase tracking-widest text-amber-800">Enquiry</div>
               <h2 id="enquiry-dialog-title" className="mt-2 font-serif text-3xl text-stone-950">{enquiryType}</h2>
-              <p id="enquiry-dialog-description" className="mt-2 text-sm leading-relaxed text-stone-600">Opening WhatsApp does not send your enquiry or confirm availability, pricing, or an appointment.</p>
+              <p id="enquiry-dialog-description" className="mt-2 text-sm leading-relaxed text-stone-600">Opening WhatsApp does not send your enquiry or confirm availability or an appointment.</p>
             </div>
 
             {submissionResult ? (
@@ -206,7 +206,7 @@ export function EnquiryModal({ isOpen, project, intent, context, returnFocusElem
             <h3 className="mt-2 font-serif text-2xl">{selectedProject.name}</h3>
             <div className="mt-6 space-y-5 text-sm">
               <div className="flex items-start gap-3"><MapPin className="mt-0.5 h-4 w-4 shrink-0 text-amber-400" /><div><div className="font-semibold">{selectedProject.location.address}</div></div></div>
-              <div className="flex items-start gap-3"><FileText className="mt-0.5 h-4 w-4 shrink-0 text-amber-400" /><div><div className="font-semibold">{selectedProject.overview.sizes}</div><div className="mt-1 text-xs text-stone-400">{selectedProject.priceStarting}</div></div></div>
+              <div className="flex items-start gap-3"><FileText className="mt-0.5 h-4 w-4 shrink-0 text-amber-400" /><div><div className="font-semibold">{selectedProject.overview.sizes}</div>{selectedProject.reraNumber && <div className="mt-1 text-xs text-stone-400">RERA No: {selectedProject.reraNumber}</div>}</div></div>
               <div className="text-xs leading-relaxed text-stone-400">Expected possession: {selectedProject.possessionDate}. This is not a guaranteed handover date.</div>
             </div>
           </aside>

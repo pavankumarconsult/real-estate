@@ -1,7 +1,4 @@
-import heroExterior from '../assets/images/hero_team4_aria_exterior_1790148691877.jpg';
-import courtyardPark from '../assets/images/team4_aria_courtyard_park_1790148702470.jpg';
-import clubhousePool from '../assets/images/team4_aria_clubhouse_pool_1790148718932.jpg';
-import livingInterior from '../assets/images/team4_aria_living_interior_1790148733432.jpg';
+import { HERO_SLIDES, PROJECT_GALLERY_MEDIA } from './media';
 
 export interface FloorPlan {
   id: string;
@@ -15,7 +12,6 @@ export interface FloorPlan {
   bathrooms: number;
   balconies: number;
   hasMaidRoom?: boolean;
-  basePriceEstimate: string;
   dimensions: {
     living: string;
     dining: string;
@@ -57,11 +53,6 @@ export interface Project {
   reraNumber: string | null;
   status: string;
   possessionDate: string;
-  priceStarting: string;
-  pricePerSqFt: string;
-  pricingVerified: boolean;
-  pricingNotice: string;
-  illustrativeRatePerSqFt: number | null;
   brochureUrl: string | null;
   location: { area: string; city: string; address: string; pincode: string };
   overview: {
@@ -96,14 +87,9 @@ export const PROJECTS: Project[] = [
     name: 'Team4 Aria',
     tagline: 'Miyapur to Bachupally Road, opposite Nyla project',
     developer: null,
-    reraNumber: null,
+    reraNumber: 'P02400010543',
     status: 'Expected possession',
     possessionDate: '2029',
-    priceStarting: 'Starting from ₹1.3 crore',
-    pricePerSqFt: '',
-    pricingVerified: true,
-    pricingNotice: 'Starting price supplied by the client. Confirm current availability and the final cost before making a decision.',
-    illustrativeRatePerSqFt: null,
     brochureUrl: null,
     location: {
       area: 'Miyapur to Bachupally Road',
@@ -119,19 +105,14 @@ export const PROJECTS: Project[] = [
       elevation: '',
       totalUnits: '',
       unitTypes: [],
-      sizes: '1,655–2,600 sq ft',
+      sizes: '1,655–2,600 sq. ft.',
       ceilingHeight: '',
       mainDoorHeight: '',
       vaastu: '',
-      description: 'Team4 Aria is located on Miyapur to Bachupally Road, opposite Nyla project. Client-supplied project details list 12.5 acres, 7 towers, 48 floors, 70% open space, residences from 1,655–2,600 sq ft, and expected possession in 2029.',
+      description: 'Team4 Aria is located on Miyapur to Bachupally Road, opposite Nyla project. Client-supplied project details list 12.5 acres, 7 towers, 48 floors, 70% open space, residences from 1,655–2,600 sq. ft., and expected possession in 2029.',
     },
-    heroImage: heroExterior,
-    galleryImages: [
-      { url: heroExterior, caption: 'Team4 Aria project visual — usage approval required', category: 'Project visual' },
-      { url: courtyardPark, caption: 'Team4 Aria project visual — usage approval required', category: 'Project visual' },
-      { url: clubhousePool, caption: 'Team4 Aria project visual — usage approval required', category: 'Project visual' },
-      { url: livingInterior, caption: 'Team4 Aria project visual — usage approval required', category: 'Project visual' },
-    ],
+    heroImage: HERO_SLIDES[0].src,
+    galleryImages: PROJECT_GALLERY_MEDIA,
     keyHighlights: [
       { title: 'Land area', subtitle: 'Client-supplied project detail', metric: '12.5', metricLabel: 'Acres' },
       { title: 'Project towers', subtitle: 'Client-supplied project detail', metric: '7', metricLabel: 'Towers' },
@@ -144,8 +125,7 @@ export const PROJECTS: Project[] = [
     specifications: [],
     faqs: [
       { question: 'Where is Team4 Aria located?', answer: 'The client-supplied location is Miyapur to Bachupally Road, opposite Nyla project.' },
-      { question: 'What size range is available?', answer: 'The client-supplied size range is 1,655–2,600 sq ft. An area type has not been specified.' },
-      { question: 'What is the starting price?', answer: 'Pricing starts from ₹1.3 crore. Please call to confirm current availability and the final cost.' },
+      { question: 'What size range is available?', answer: 'The client-supplied size range is 1,655–2,600 sq. ft. An area type has not been specified.' },
       { question: 'When is possession expected?', answer: 'Expected possession is 2029. This is an expectation, not a guaranteed handover date.' },
       { question: 'How can I arrange a site visit?', answer: 'Call +91 80568 85347 or continue through the enquiry form to WhatsApp. In WhatsApp, review the message and press Send.' },
     ],

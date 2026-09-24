@@ -1,6 +1,6 @@
 import React from 'react';
 import { Download, FileText, LayoutTemplate, Map, MessageSquareText } from 'lucide-react';
-import { PROJECT_DOCUMENTS, ProjectDocument, SITE_PLAN_IMAGE } from '../data/media';
+import { PROJECT_DOCUMENTS, ProjectDocument } from '../data/media';
 import { Project } from '../data/projects';
 import { OpenEnquiryHandler } from '../types/enquiry';
 
@@ -32,12 +32,12 @@ export const FloorPlansSection: React.FC<FloorPlansSectionProps> = ({ project, o
           Supplied plans for {project.name}
         </h2>
         <p className="mt-3 text-base leading-relaxed text-stone-600">
-          Download the supplied PDFs directly. Plan labels follow the source filenames; no unverified configuration, size, tower, or price has been added.
+          Download the supplied PDFs directly. Plan labels follow the source filenames; no unverified configuration, size, or tower details have been added.
         </p>
       </div>
 
       <div className="mt-10 grid gap-6 lg:grid-cols-12">
-        <div className="flex flex-col justify-between rounded-2xl bg-stone-900 p-7 text-stone-100 shadow-lg lg:col-span-5">
+        <div className="flex flex-col justify-between rounded-2xl bg-stone-900 p-7 text-stone-100 shadow-lg lg:col-span-5 lg:self-start">
           <div>
             <div className="flex h-11 w-11 items-center justify-center rounded-xl bg-amber-500/15 text-amber-400">
               <Map className="h-5 w-5" aria-hidden="true" />
@@ -45,15 +45,6 @@ export const FloorPlansSection: React.FC<FloorPlansSectionProps> = ({ project, o
             <div className="mt-5 text-xs font-semibold uppercase tracking-wider text-amber-400">Site plan</div>
             <h3 className="mt-2 font-serif text-2xl text-white">{PROJECT_DOCUMENTS.sitePlan.title}</h3>
             <p className="mt-3 text-sm leading-relaxed text-stone-300">A direct PDF download of the supplied site-plan document.</p>
-            <div className="mt-6 overflow-hidden rounded-xl border border-stone-700 bg-stone-950">
-              <img
-                src={SITE_PLAN_IMAGE}
-                alt={`Illustrated site plan for ${project.name}`}
-                loading="lazy"
-                decoding="async"
-                className="aspect-[4/5] h-auto w-full object-cover object-top"
-              />
-            </div>
           </div>
           <a
             href={PROJECT_DOCUMENTS.sitePlan.url}

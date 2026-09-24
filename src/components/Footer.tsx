@@ -19,6 +19,7 @@ export const Footer: React.FC<FooterProps> = ({ project, onOpenEnquiry }) => (
             <span>{SITE_CONFIG.businessName}</span>
           </div>
           <p className="max-w-sm text-xs leading-relaxed text-stone-400">Project information for {project.name} at {project.location.address}.</p>
+          {project.reraNumber && <p className="text-xs font-semibold text-amber-400">RERA No: {project.reraNumber}</p>}
           <p className="max-w-md text-[11px] leading-relaxed text-stone-500">{SITE_CONFIG.businessName} is the display brand for this marketing website. {project.name} is the featured property; {SITE_CONFIG.businessName} is not presented as the property developer, and this is not represented as the property&apos;s official website.</p>
         </div>
 
@@ -26,7 +27,7 @@ export const Footer: React.FC<FooterProps> = ({ project, onOpenEnquiry }) => (
           <div className="mb-4 text-xs font-semibold uppercase tracking-wider text-stone-200">Project navigation</div>
           <ul className="space-y-2.5 text-xs text-stone-400">
             <li><a href="#overview" className="hover:text-stone-100">Overview</a></li>
-            <li><a href="#pricing" className="hover:text-stone-100">Pricing & unit information</a></li>
+            <li><a href="#project-details" className="hover:text-stone-100">Project details</a></li>
             <li><a href="#location" className="hover:text-stone-100">Location</a></li>
             <li><a href="#faq" className="hover:text-stone-100">FAQ</a></li>
             <li><button type="button" onClick={(event) => onOpenEnquiry('Site visit', event.currentTarget)} className="text-left hover:text-amber-400">Site visit enquiry</button></li>
