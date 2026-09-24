@@ -46,8 +46,19 @@ export const Footer: React.FC<FooterProps> = ({ project, onOpenEnquiry }) => (
       </div>
 
       <div className="flex flex-col items-center gap-3 pt-8 text-center text-[11px] leading-relaxed text-stone-500">
-        <p className="max-w-full">© 2026 Digystate Digital Marketing Agency. All rights reserved.</p>
-        <p className="max-w-full break-words">
+        <div className="flex max-w-full flex-col items-center gap-1.5">
+          <p>© 2026 Digystate Digital Marketing Agency. All rights reserved.</p>
+          <p>Hyderabad · Bangalore</p>
+          <a
+            href="https://digystate.com/"
+            target="_blank"
+            rel="noopener noreferrer"
+            className="max-w-full break-all text-stone-400 underline decoration-stone-700 underline-offset-4 transition-colors hover:text-stone-100 hover:decoration-stone-400"
+          >
+            www.digystate.com
+          </a>
+        </div>
+        <p className="max-w-full break-words pt-1">
           <span>Disclaimer</span>
           <span aria-hidden="true"> | </span>
           <span>Privacy Policy</span>
