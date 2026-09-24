@@ -1,57 +1,26 @@
-# Hyderabad Residences
+# Team4 Aria — Medha Ventures
 
-A responsive React and TypeScript real-estate presentation site. The current dataset contains only Team4 ARIA; no additional projects are fabricated. The site is frontend-only and uses a configured HTTP endpoint only when an approved enquiry destination is supplied.
+A responsive React and TypeScript real-estate presentation site for Team4 Aria. Medha Ventures is used only as the website display brand; the site does not identify it as the project developer or an official Team4 entity.
 
-## Run locally
-
-Requirements: Node.js 20.19+ or 22.12+ and npm.
+## Local development
 
 ```bash
 npm install
 npm run dev
 ```
 
-Vite prints the local URL, normally `http://localhost:5173`.
+## Content sources
 
-Production checks:
+- Display brand, phone, email, WhatsApp message, and Google Maps URL: `src/config/site.ts`
+- Approved project facts, FAQ copy, image imports, and optional section data: `src/data/projects.ts`
+- Shared enquiry flow: `src/components/EnquiryModal.tsx` and `src/services/enquiryService.ts`
 
-```bash
-npm run typecheck
-npm run build
-npm run test:ui
-npm run preview
-```
+The main visitor action is **Call Now**. The shared enquiry form validates the visitor's entries and opens WhatsApp with a prefilled draft; the visitor must press Send in WhatsApp. The site has no enquiry backend and does not store visitor contact details in local storage.
 
-## Content and configuration
+## Optional sections
 
-- Project details, floor plans, prices, amenities, nearby places, specifications, image imports, and brochure URL: `src/data/projects.ts`
-- Business name, phone, email, WhatsApp number/message, Google Maps, and enquiry delivery URL: `src/config/site.ts`
-- Shared enquiry submission logic: `src/services/enquiryService.ts`
-- Project images: `src/assets/images/`
-- Global styling and fonts: `src/index.css` and `index.html`
+Floor plans, amenities, specifications, developer information, and brochure actions remain hidden while their approved content or assets are unavailable. Their data-backed components can be enabled after approved values are added.
 
-The supplied business and contact details were not client-confirmed. Leave an unconfirmed contact value as `null`; the UI will not create a dummy link. Enter the approved call number in `phone` and the approved WhatsApp number in `whatsappNumber`. For WhatsApp, use digits with the country code and no `+`, spaces, or punctuation—for example, an Indian number would start with `91`.
+## Asset approval
 
-The three floating actions are intentionally fixed to Enquiry, Phone, and WhatsApp. Phone and WhatsApp remain visibly disabled until their approved numbers are configured.
-
-## Brochure
-
-Place an approved PDF under `public/brochures/`, then set the project's `brochureUrl`, for example:
-
-```ts
-brochureUrl: '/brochures/team4-aria.pdf',
-```
-
-When `brochureUrl` is `null`, the interface honestly reports that no brochure has been provided.
-
-## Maps and enquiries
-
-Set `googleMapsUrl` only to a client-approved Google Maps destination.
-
-The shared enquiry popup stays in clearly labelled demo mode while `enquiryDeliveryUrl` is `null`. A configured destination must accept a browser CORS `POST` request with JSON. After a successful response, the UI reports that the request was delivered but still does not claim availability, pricing, or an appointment is confirmed. Confirm the destination's privacy, spam protection, retention, and consent requirements before publishing.
-
-The popup auto-opens once per browser session. Dismissing it stores only a session flag in `sessionStorage`; enquiry form details are not stored there.
-
-## Before publishing
-
-Obtain written approval for the business identity, contact channels, map destination, enquiry endpoint, brochure, pricing, RERA reference, possession date, travel times, amenities, specifications, imagery rights, and all marketing claims.
+The images under `src/assets/images/` were already present in the workspace. Their usage rights and final client approval have not been confirmed. Current captions identify them as project visuals pending usage approval, and the import paths are centralized in `src/data/projects.ts` for straightforward replacement.

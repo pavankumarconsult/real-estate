@@ -1,7 +1,7 @@
 import React from 'react';
-import { Building2, Phone, Mail, MapPin, ShieldCheck, MessageCircle } from 'lucide-react';
+import { Building2, Mail, MapPin, MessageCircle, Phone } from 'lucide-react';
+import { SITE_CONFIG, getPhoneHref, getWhatsAppHref } from '../config/site';
 import { Project } from '../data/projects';
-import { getPhoneHref, getWhatsAppHref, SITE_CONFIG } from '../config/site';
 import { OpenEnquiryHandler } from '../types/enquiry';
 
 interface FooterProps {
@@ -9,147 +9,46 @@ interface FooterProps {
   onOpenEnquiry: OpenEnquiryHandler;
 }
 
-export const Footer: React.FC<FooterProps> = ({ project, onOpenEnquiry }) => {
-  return (
-    <footer className="bg-stone-950 text-stone-300 pt-16 pb-12 border-t border-stone-800">
-      <div className="mx-auto max-w-7xl px-4 sm:px-6 lg:px-8">
-        <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-5 gap-10 pb-12 border-b border-stone-800">
-          {/* Brand & Developer Column */}
-          <div className="lg:col-span-2 space-y-4">
-            <div className="flex items-center gap-2.5 font-serif text-2xl text-stone-100 font-semibold tracking-tight">
-              <Building2 className="h-6 w-6 text-amber-500" />
-              <span>{SITE_CONFIG.businessName}</span>
-            </div>
-            <p className="text-xs text-stone-400 max-w-sm leading-relaxed">
-              Presenting {project.name} by {project.developer} in {project.location.area}, {project.location.city}.
-            </p>
-            {!SITE_CONFIG.businessNameConfirmed && (
-              <p className="text-[11px] text-stone-500">Business name pending client confirmation.</p>
-            )}
-            <div className="pt-2 flex items-center gap-2 text-xs text-amber-400 font-mono">
-              <ShieldCheck className="h-4 w-4" />
-              <span>Supplied RERA reference: {project.reraNumber}</span>
-            </div>
+export const Footer: React.FC<FooterProps> = ({ project, onOpenEnquiry }) => (
+  <footer className="border-t border-stone-800 bg-stone-950 pb-12 pt-16 text-stone-300">
+    <div className="mx-auto max-w-7xl px-4 sm:px-6 lg:px-8">
+      <div className="grid grid-cols-1 gap-10 border-b border-stone-800 pb-12 md:grid-cols-2 lg:grid-cols-4">
+        <div className="space-y-4 lg:col-span-2">
+          <div className="flex items-center gap-2.5 font-serif text-2xl font-semibold tracking-tight text-stone-100">
+            <Building2 className="h-6 w-6 text-amber-500" />
+            <span>{SITE_CONFIG.businessName}</span>
           </div>
-
-          {/* Quick Navigation */}
-          <div>
-            <div className="text-xs uppercase tracking-wider text-stone-200 font-semibold mb-4">
-              Project Navigation
-            </div>
-            <ul className="space-y-2.5 text-xs text-stone-400">
-              <li>
-                <a href="#overview" className="hover:text-stone-100 transition-colors">
-                  Overview & Architecture
-                </a>
-              </li>
-              <li>
-                <a href="#floorplans" className="hover:text-stone-100 transition-colors">
-                  3 & 4 BHK Floor Plans
-                </a>
-              </li>
-              <li>
-                <a href="#amenities" className="hover:text-stone-100 transition-colors">
-                  Clubhouse & Sky Park
-                </a>
-              </li>
-              <li>
-                <a href="#location" className="hover:text-stone-100 transition-colors">
-                  Location & Transit Hubs
-                </a>
-              </li>
-              <li>
-                <a href="#specifications" className="hover:text-stone-100 transition-colors">
-                  Build Specifications
-                </a>
-              </li>
-            </ul>
-          </div>
-
-          {/* Site Visit Assistance */}
-          <div>
-            <div className="text-xs uppercase tracking-wider text-stone-200 font-semibold mb-4">
-              Site Experience
-            </div>
-            <ul className="space-y-2.5 text-xs text-stone-400">
-              <li>
-                <button
-                  onClick={(event) => onOpenEnquiry('Site visit', event.currentTarget)}
-                  className="hover:text-amber-400 transition-colors text-left cursor-pointer"
-                >
-                  Plan a Site Visit
-                </button>
-              </li>
-              <li>
-                <button
-                  onClick={(event) => onOpenEnquiry('Pickup assistance', event.currentTarget)}
-                  className="hover:text-amber-400 transition-colors text-left cursor-pointer"
-                >
-                  Pickup Assistance Preference
-                </button>
-              </li>
-              <li>
-                <a href="#floorplans" className="hover:text-stone-100 transition-colors">
-                  Cost Breakdown Estimator
-                </a>
-              </li>
-              <li>
-                <span className="text-stone-500">Supplied possession: {project.possessionDate}</span>
-              </li>
-            </ul>
-          </div>
-
-          {/* Direct Sales Desk */}
-          <div>
-            <div className="text-xs uppercase tracking-wider text-stone-200 font-semibold mb-4">
-              Sales Experience Centre
-            </div>
-            <div className="space-y-3 text-xs text-stone-400">
-              <div className="flex items-start gap-2">
-                <MapPin className="h-4 w-4 text-amber-500 shrink-0 mt-0.5" />
-                <span>{project.location.address}</span>
-              </div>
-              {SITE_CONFIG.phone && (
-                <div className="flex items-center gap-2">
-                  <Phone className="h-4 w-4 text-amber-500 shrink-0" />
-                  <a href={getPhoneHref(SITE_CONFIG.phone)} className="hover:text-white font-mono tabular-nums">
-                    {SITE_CONFIG.phone}
-                  </a>
-                </div>
-              )}
-              {SITE_CONFIG.email && (
-                <div className="flex items-center gap-2">
-                  <Mail className="h-4 w-4 text-amber-500 shrink-0" />
-                  <a href={`mailto:${SITE_CONFIG.email}`} className="hover:text-white">
-                    {SITE_CONFIG.email}
-                  </a>
-                </div>
-              )}
-              {SITE_CONFIG.whatsappNumber && (
-                <div className="flex items-center gap-2">
-                  <MessageCircle className="h-4 w-4 text-amber-500 shrink-0" />
-                  <a href={getWhatsAppHref(SITE_CONFIG.whatsappNumber, project.name) ?? undefined} target="_blank" rel="noopener noreferrer" className="hover:text-white">
-                    WhatsApp
-                  </a>
-                </div>
-              )}
-              {!SITE_CONFIG.phone && !SITE_CONFIG.email && !SITE_CONFIG.whatsappNumber && (
-                <p className="text-stone-500">Verified sales contact details are pending.</p>
-              )}
-            </div>
-          </div>
+          <p className="max-w-sm text-xs leading-relaxed text-stone-400">Project information for {project.name} at {project.location.address}.</p>
+          <p className="max-w-md text-[11px] leading-relaxed text-stone-500">{SITE_CONFIG.businessName} is the display brand for this website. It is not presented as the project developer or an official Team4 entity.</p>
         </div>
 
-        {/* Regulatory Disclaimer & Copyright */}
-        <div className="pt-8 flex flex-col md:flex-row items-center justify-between gap-4 text-[11px] text-stone-500">
-          <p>
-            Disclaimer: Renderings, plans, specifications, dates, pricing, and regulatory references are supplied project information and require independent verification before reliance. Supplied RERA reference: {project.reraNumber}.
-          </p>
-          <div className="whitespace-nowrap font-sans">
-            © {new Date().getFullYear()} {SITE_CONFIG.businessName}. All rights reserved.
+        <div>
+          <div className="mb-4 text-xs font-semibold uppercase tracking-wider text-stone-200">Project navigation</div>
+          <ul className="space-y-2.5 text-xs text-stone-400">
+            <li><a href="#overview" className="hover:text-stone-100">Overview</a></li>
+            <li><a href="#pricing" className="hover:text-stone-100">Pricing & unit information</a></li>
+            <li><a href="#location" className="hover:text-stone-100">Location</a></li>
+            <li><a href="#faq" className="hover:text-stone-100">FAQ</a></li>
+            <li><button type="button" onClick={(event) => onOpenEnquiry('Site visit', event.currentTarget)} className="text-left hover:text-amber-400">Site visit enquiry</button></li>
+          </ul>
+        </div>
+
+        <div>
+          <div className="mb-4 text-xs font-semibold uppercase tracking-wider text-stone-200">Contact</div>
+          <div className="space-y-3 text-xs text-stone-400">
+            <div className="flex items-start gap-2"><MapPin className="mt-0.5 h-4 w-4 shrink-0 text-amber-500" /><span>{project.location.address}</span></div>
+            <div className="flex items-center gap-2"><Phone className="h-4 w-4 shrink-0 text-amber-500" /><a href={getPhoneHref()} className="font-mono tabular-nums hover:text-white">{SITE_CONFIG.phoneDisplay}</a></div>
+            <div className="flex items-center gap-2"><Mail className="h-4 w-4 shrink-0 text-amber-500" /><a href={`mailto:${SITE_CONFIG.email}`} className="break-all hover:text-white">{SITE_CONFIG.email}</a></div>
+            <div className="flex items-center gap-2"><MessageCircle className="h-4 w-4 shrink-0 text-amber-500" /><a href={getWhatsAppHref(project.name)} target="_blank" rel="noopener noreferrer" className="hover:text-white">WhatsApp</a></div>
+            <div className="flex items-center gap-2"><MapPin className="h-4 w-4 shrink-0 text-amber-500" /><a href={SITE_CONFIG.googleMapsUrl} target="_blank" rel="noopener noreferrer" className="hover:text-white">View on Google Maps</a></div>
           </div>
         </div>
       </div>
-    </footer>
-  );
-};
+
+      <div className="flex flex-col items-center justify-between gap-4 pt-8 text-[11px] text-stone-500 md:flex-row">
+        <p>Project details and starting price are client-supplied and may change. Expected possession: {project.possessionDate}; this is not a guaranteed handover date.</p>
+        <div className="whitespace-nowrap">{SITE_CONFIG.businessName} · Display brand</div>
+      </div>
+    </div>
+  </footer>
+);

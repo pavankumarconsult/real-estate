@@ -1,44 +1,31 @@
 /**
- * Business and outbound-link configuration.
- *
- * The supplied design did not include client-approved contact details. Keep a
- * value as null until the client confirms it. Components intentionally avoid
- * rendering clickable phone, email, WhatsApp, Maps, or enquiry links for null
- * values so the published site can never send visitors to dummy destinations.
+ * Client-approved display identity and outbound contact configuration.
+ * Keep contact details here so every call, email, WhatsApp, and Maps action
+ * uses the same source of truth.
  */
 export interface SiteConfiguration {
   businessName: string;
-  businessNameConfirmed: boolean;
-  phone: string | null;
-  email: string | null;
-  whatsappNumber: string | null;
+  phoneDisplay: string;
+  phoneHref: string;
+  email: string;
+  whatsappNumber: string;
   whatsappMessageTemplate: string;
-  generalWhatsappMessage: string;
-  googleMapsUrl: string | null;
-  enquiryDeliveryUrl: string | null;
+  googleMapsUrl: string;
 }
 
 export const SITE_CONFIG: SiteConfiguration = {
-  businessName: 'Hyderabad Residences',
-  businessNameConfirmed: false,
-  phone: null,
-  email: null,
-  whatsappNumber: null,
-  whatsappMessageTemplate: "Hello, I'm interested in {projectName}. Please share more details and help me arrange a site visit.",
-  generalWhatsappMessage: "Hello, I'd like more information about your available projects.",
-  googleMapsUrl: null,
-  enquiryDeliveryUrl: null,
+  businessName: 'Medha Ventures',
+  phoneDisplay: '+91 80568 85347',
+  phoneHref: 'tel:+918056885347',
+  email: 'jayapalreddy5347@gmail.com',
+  whatsappNumber: '918056885347',
+  whatsappMessageTemplate: "Hello, I'm interested in {projectName}. Please share details and help me arrange a site visit.",
+  googleMapsUrl: 'https://maps.app.goo.gl/4DYLxvuHhwsqaGgW7',
 };
 
-export const getPhoneHref = (phone: string) => `tel:${phone.replace(/[^+\d]/g, '')}`;
+export const getPhoneHref = () => SITE_CONFIG.phoneHref;
 
-export const getWhatsAppHref = (number: string, projectName?: string) => {
-  const digits = number.replace(/\D/g, '');
-  if (!digits) return null;
-
-  const message = projectName
-    ? SITE_CONFIG.whatsappMessageTemplate.replace('{projectName}', projectName)
-    : SITE_CONFIG.generalWhatsappMessage;
-
-  return `https://wa.me/${digits}?text=${encodeURIComponent(message)}`;
+export const getWhatsAppHref = (projectName: string) => {
+  const message = SITE_CONFIG.whatsappMessageTemplate.replace('{projectName}', projectName);
+  return `https://wa.me/${SITE_CONFIG.whatsappNumber}?text=${encodeURIComponent(message)}`;
 };
