@@ -1,6 +1,6 @@
-# Team4 Aria
+# Team4 Aria — Medha Ventures
 
-A responsive React and TypeScript real-estate presentation site for the Team4 Aria property. Digystate is credited only as the digital marketing agency in the footer; the site does not identify the agency as the property owner or developer.
+A responsive React and TypeScript real-estate presentation site branded as Medha Ventures for the Team4 Aria property. Medha Ventures is not identified as the property developer, and Digystate is credited only as the digital marketing agency in the footer.
 
 ## Local development
 

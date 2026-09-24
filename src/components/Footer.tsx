@@ -19,7 +19,7 @@ export const Footer: React.FC<FooterProps> = ({ project, onOpenEnquiry }) => (
             <span>{SITE_CONFIG.businessName}</span>
           </div>
           <p className="max-w-sm text-xs leading-relaxed text-stone-400">Project information for {project.name} at {project.location.address}.</p>
-          <p className="max-w-md text-[11px] leading-relaxed text-stone-500">{project.name} is the property featured on this landing page. This website does not claim to be the developer&apos;s official website.</p>
+          <p className="max-w-md text-[11px] leading-relaxed text-stone-500">{SITE_CONFIG.businessName} is the display brand for this marketing website. {project.name} is the featured property; {SITE_CONFIG.businessName} is not presented as the property developer, and this is not represented as the property&apos;s official website.</p>
         </div>
 
         <div>
