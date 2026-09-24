@@ -11,9 +11,9 @@ interface NavbarProps {
 
 const navItems = [
   ['Overview', '#overview'],
-  ['Pricing & Units', '#pricing'],
+  ['Plans', '#floorplans'],
+  ['Amenities', '#amenities'],
   ['Location', '#location'],
-  ['FAQ', '#faq'],
   ['Site Visit', '#sitevisit'],
 ] as const;
 

@@ -12,15 +12,16 @@ npm run dev
 ## Content sources
 
 - Display brand, phone, email, WhatsApp message, and Google Maps URL: `src/config/site.ts`
-- Approved project facts, FAQ copy, image imports, and optional section data: `src/data/projects.ts`
+- Approved project facts, FAQ copy, and optional section data: `src/data/projects.ts`
+- Hero, amenity, and downloadable-document asset imports: `src/data/media.ts`
 - Shared enquiry flow: `src/components/EnquiryModal.tsx` and `src/services/enquiryService.ts`
 
 The main visitor action is **Call Now**. The shared enquiry form validates the visitor's entries and opens WhatsApp with a prefilled draft; the visitor must press Send in WhatsApp. The site has no enquiry backend and does not store visitor contact details in local storage.
 
-## Optional sections
+## Project media
 
-Floor plans, amenities, specifications, developer information, and brochure actions remain hidden while their approved content or assets are unavailable. Their data-backed components can be enabled after approved values are added.
+The supplied hero and amenity images, brochure, site plan, and floor-plan PDFs live in `src/assets/media/`. Their production URLs are generated through static Vite imports in `src/data/media.ts`. Specifications and developer information remain hidden while approved content is unavailable.
 
 ## Asset approval
 
-The images under `src/assets/images/` were already present in the workspace. Their usage rights and final client approval have not been confirmed. Current captions identify them as project visuals pending usage approval, and the import paths are centralized in `src/data/projects.ts` for straightforward replacement.
+The existing images under `src/assets/images/` and newly supplied files under `src/assets/media/` require final client confirmation for usage rights and publication approval. Their import paths are centralized in `src/data/projects.ts` and `src/data/media.ts` for straightforward replacement.

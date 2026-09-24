@@ -1,20 +1,14 @@
 import React, { useEffect, useRef, useState } from 'react';
-import { ChevronLeft, ChevronRight, MapPin, MessageSquareText, Phone } from 'lucide-react';
-import slider1 from '../assets/images/slider1.jpg';
-import slider2 from '../assets/images/slider2.jpg';
+import { ChevronLeft, ChevronRight, Download, MapPin, MessageSquareText, Phone } from 'lucide-react';
 import { SITE_CONFIG, getPhoneHref } from '../config/site';
 import { Project } from '../data/projects';
+import { HERO_SLIDES, PROJECT_DOCUMENTS } from '../data/media';
 import { OpenEnquiryHandler } from '../types/enquiry';
 
 interface HeroProps {
   project: Project;
   onOpenEnquiry: OpenEnquiryHandler;
 }
-
-const slides = [
-  { src: slider1, position: 'object-[52%_center] sm:object-center' },
-  { src: slider2, position: 'object-[58%_center] sm:object-center' },
-];
 
 const AUTOPLAY_DELAY_MS = 5000;
 
@@ -39,14 +33,14 @@ export const Hero: React.FC<HeroProps> = ({ project, onOpenEnquiry }) => {
     if (prefersReducedMotion || isHoverPaused || isFocusPaused) return;
 
     const timerId = window.setTimeout(() => {
-      setActiveSlide((current) => (current + 1) % slides.length);
+      setActiveSlide((current) => (current + 1) % HERO_SLIDES.length);
     }, AUTOPLAY_DELAY_MS);
 
     return () => window.clearTimeout(timerId);
   }, [activeSlide, isFocusPaused, isHoverPaused, prefersReducedMotion, timerResetKey]);
 
   const selectSlide = (index: number) => {
-    setActiveSlide((index + slides.length) % slides.length);
+    setActiveSlide((index + HERO_SLIDES.length) % HERO_SLIDES.length);
     setTimerResetKey((key) => key + 1);
   };
 
@@ -69,16 +63,18 @@ export const Hero: React.FC<HeroProps> = ({ project, onOpenEnquiry }) => {
       onBlurCapture={handleBlur}
     >
       <div className="absolute inset-0 z-0" aria-hidden="true">
-        {slides.map((slide, index) => (
+        {HERO_SLIDES.map((slide, index) => (
           <img
             key={slide.src}
             src={slide.src}
             alt=""
-            className={`absolute inset-0 h-full w-full object-cover brightness-90 transition-opacity duration-1000 ease-in-out motion-reduce:transition-none ${slide.position} ${index === activeSlide ? 'opacity-40' : 'opacity-0'}`}
+            loading={index === 0 ? 'eager' : 'lazy'}
+            decoding="async"
+            className={`absolute inset-0 h-full w-full object-cover transition-opacity duration-1000 ease-in-out motion-reduce:transition-none ${slide.positionClass} ${index === activeSlide ? 'opacity-100' : 'opacity-0'}`}
           />
         ))}
-        <div className="absolute inset-0 bg-gradient-to-t from-stone-950 via-stone-950/65 to-stone-900/35" />
-        <div className="absolute inset-0 bg-gradient-to-r from-stone-950/45 via-transparent to-stone-950/10" />
+        <div className="absolute inset-0 bg-gradient-to-t from-stone-950/45 via-transparent to-stone-950/10" />
+        <div className="absolute inset-0 bg-gradient-to-r from-stone-950/75 via-stone-950/25 to-transparent" />
       </div>
 
       <div className="relative z-10 mx-auto max-w-7xl px-4 pt-16 pb-20 sm:px-6 sm:pt-24 sm:pb-24 lg:px-8">
@@ -120,6 +116,14 @@ export const Hero: React.FC<HeroProps> = ({ project, onOpenEnquiry }) => {
             <MessageSquareText className="h-4 w-4" aria-hidden="true" />
             Enquire on WhatsApp
           </button>
+          <a
+            href={PROJECT_DOCUMENTS.brochure.url}
+            download={PROJECT_DOCUMENTS.brochure.fileName}
+            className="inline-flex items-center gap-2 rounded-lg border border-amber-300/60 bg-amber-50/10 px-5 py-3.5 text-sm font-medium text-amber-100 backdrop-blur-sm transition-colors hover:border-amber-200 hover:bg-amber-100/15 hover:text-white"
+          >
+            <Download className="h-4 w-4" aria-hidden="true" />
+            {PROJECT_DOCUMENTS.brochure.actionLabel}
+          </a>
         </div>
 
         <div className="mt-14 grid grid-cols-2 gap-6 border-t border-stone-700/80 pt-8 sm:grid-cols-4 lg:gap-8">
@@ -147,13 +151,13 @@ export const Hero: React.FC<HeroProps> = ({ project, onOpenEnquiry }) => {
           </button>
 
           <div className="flex items-center gap-2">
-            {slides.map((_, index) => (
+            {HERO_SLIDES.map((_, index) => (
               <button
                 key={index}
                 type="button"
                 onClick={() => selectSlide(index)}
                 className="group flex h-9 w-9 items-center justify-center rounded-full focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-amber-400"
-                aria-label={`Show image ${index + 1} of ${slides.length}`}
+                aria-label={`Show image ${index + 1} of ${HERO_SLIDES.length}`}
                 aria-current={activeSlide === index ? 'true' : undefined}
               >
                 <span className={`block h-2 rounded-full transition-all motion-reduce:transition-none ${activeSlide === index ? 'w-7 bg-amber-400' : 'w-2 bg-white/55 group-hover:bg-white/80'}`} />

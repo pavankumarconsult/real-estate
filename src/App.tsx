@@ -82,8 +82,8 @@ export default function App() {
         <Hero project={currentProject} onOpenEnquiry={openEnquiry} />
         <ProjectPortfolioBar currentProject={currentProject} onSelectProject={setCurrentProjectId} />
         <ProjectOverview key={`overview-${currentProject.id}`} project={currentProject} onOpenEnquiry={openEnquiry} />
-        {currentProject.floorPlans.length > 0 && <FloorPlansSection key={`floorplans-${currentProject.id}`} project={currentProject} onOpenEnquiry={openEnquiry} />}
-        {currentProject.amenities.length > 0 && <AmenitiesSection key={`amenities-${currentProject.id}`} project={currentProject} onOpenEnquiry={openEnquiry} />}
+        <FloorPlansSection key={`floorplans-${currentProject.id}`} project={currentProject} onOpenEnquiry={openEnquiry} />
+        <AmenitiesSection key={`amenities-${currentProject.id}`} project={currentProject} onOpenEnquiry={openEnquiry} />
         <LocationSection key={`location-${currentProject.id}`} project={currentProject} />
         {currentProject.specifications.length > 0 && <SpecificationsSection key={`specifications-${currentProject.id}`} specifications={currentProject.specifications} />}
         <DeveloperInformationSection project={currentProject} />
