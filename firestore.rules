@@ -1,0 +1,21 @@
+rules_version = '2';
+
+service cloud.firestore {
+  match /databases/{database}/documents {
+    // Lead data and idempotency markers are server-only. Firebase Admin bypasses
+    // these client rules after authenticating with the server service account.
+    match /enquiries/{leadId} {
+      allow read, create, update, delete: if false;
+    }
+
+    match /enquiryIdempotency/{markerId} {
+      allow read, create, update, delete: if false;
+    }
+
+    // This repository has no other client-side Firestore collections. Keep an
+    // explicit default deny rather than accidentally opening future data.
+    match /{document=**} {
+      allow read, write: if false;
+    }
+  }
+}

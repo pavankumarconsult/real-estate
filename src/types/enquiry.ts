@@ -20,11 +20,16 @@ export interface EnquiryPayload {
   intent: EnquiryIntent;
   context?: string;
   consent: true;
+  website: string;
+  source: {
+    pagePath: string;
+    referrerHost?: string;
+  };
 }
 
 export interface EnquirySubmissionResult {
-  status: 'whatsapp-opened';
-  whatsappUrl: string;
+  success: true;
+  referenceId: string;
 }
 
 export type OpenEnquiryHandler = (

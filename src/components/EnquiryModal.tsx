@@ -1,7 +1,7 @@
 import { FormEvent, useEffect, useRef, useState } from 'react';
-import { CheckCircle2, FileText, MapPin, MessageCircle, MessageSquareText, X } from 'lucide-react';
+import { CheckCircle2, Database, FileText, MapPin, MessageSquareText, X } from 'lucide-react';
 import { Project, PROJECTS } from '../data/projects';
-import { prepareWhatsAppEnquiry } from '../services/enquiryService';
+import { getEnquirySource, submitEnquiry } from '../services/enquiryService';
 import { ENQUIRY_INTENTS, EnquiryIntent, EnquirySubmissionResult } from '../types/enquiry';
 
 interface EnquiryModalProps {
@@ -11,6 +11,7 @@ interface EnquiryModalProps {
   context?: string;
   returnFocusElement: HTMLElement | null;
   onClose: () => void;
+  onSuccess: (result: EnquirySubmissionResult, projectId: string) => void;
 }
 
 interface FormErrors {
@@ -28,7 +29,7 @@ const focusableSelector = [
   '[tabindex]:not([tabindex="-1"])',
 ].join(',');
 
-export function EnquiryModal({ isOpen, project, intent, context, returnFocusElement, onClose }: EnquiryModalProps) {
+export function EnquiryModal({ isOpen, project, intent, context, returnFocusElement, onClose, onSuccess }: EnquiryModalProps) {
   const dialogRef = useRef<HTMLDivElement>(null);
   const nameInputRef = useRef<HTMLInputElement>(null);
   const [name, setName] = useState('');
@@ -37,8 +38,11 @@ export function EnquiryModal({ isOpen, project, intent, context, returnFocusElem
   const [projectId, setProjectId] = useState(project.id);
   const [enquiryType, setEnquiryType] = useState<EnquiryIntent>(intent);
   const [consent, setConsent] = useState(false);
+  const [website, setWebsite] = useState('');
   const [errors, setErrors] = useState<FormErrors>({});
-  const [submissionResult, setSubmissionResult] = useState<EnquirySubmissionResult | null>(null);
+  const [submissionError, setSubmissionError] = useState('');
+  const [isSubmitting, setIsSubmitting] = useState(false);
+  const idempotencyKeyRef = useRef('');
 
   useEffect(() => {
     if (!isOpen) return;
@@ -48,8 +52,11 @@ export function EnquiryModal({ isOpen, project, intent, context, returnFocusElem
     setProjectId(project.id);
     setEnquiryType(ENQUIRY_INTENTS.includes(intent as (typeof ENQUIRY_INTENTS)[number]) ? intent : 'General enquiry');
     setConsent(false);
+    setWebsite('');
     setErrors({});
-    setSubmissionResult(null);
+    setSubmissionError('');
+    setIsSubmitting(false);
+    idempotencyKeyRef.current = crypto.randomUUID();
   }, [isOpen, project.id, intent, context]);
 
   useEffect(() => {
@@ -96,26 +103,37 @@ export function EnquiryModal({ isOpen, project, intent, context, returnFocusElem
     if (name.trim().length < 2) nextErrors.name = 'Please enter your name.';
     if (!/^[6-9]\d{9}$/.test(cleanMobile)) nextErrors.mobile = 'Enter a valid 10-digit Indian mobile number.';
     if (email.trim() && !/^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(email.trim())) nextErrors.email = 'Enter a valid email address or leave it blank.';
-    if (!consent) nextErrors.consent = 'Please confirm that your details may be included in the WhatsApp draft.';
+    if (!consent) nextErrors.consent = 'Please confirm that we may respond to this enquiry.';
     setErrors(nextErrors);
     return Object.keys(nextErrors).length === 0;
   };
 
-  const handleSubmit = (event: FormEvent<HTMLFormElement>) => {
+  const handleSubmit = async (event: FormEvent<HTMLFormElement>) => {
     event.preventDefault();
-    if (!validate()) return;
-    const result = prepareWhatsAppEnquiry({
-      name: name.trim(),
-      mobile: mobile.replace(/\D/g, ''),
-      email: email.trim() || undefined,
-      projectId: selectedProject.id,
-      projectName: selectedProject.name,
-      intent: enquiryType,
-      context,
-      consent: true,
-    });
-    window.open(result.whatsappUrl, '_blank', 'noopener,noreferrer');
-    setSubmissionResult(result);
+    if (isSubmitting || !validate()) return;
+
+    setSubmissionError('');
+    setIsSubmitting(true);
+
+    try {
+      const result = await submitEnquiry({
+        name: name.trim(),
+        mobile: mobile.replace(/\D/g, ''),
+        email: email.trim() || undefined,
+        projectId: selectedProject.id,
+        projectName: selectedProject.name,
+        intent: enquiryType,
+        context,
+        consent: true,
+        website,
+        source: getEnquirySource(),
+      }, idempotencyKeyRef.current);
+      onSuccess(result, selectedProject.id);
+    } catch {
+      setSubmissionError('We could not save your enquiry right now. Your details are still here—please try again.');
+    } finally {
+      setIsSubmitting(false);
+    }
   };
 
   return (
@@ -137,12 +155,12 @@ export function EnquiryModal({ isOpen, project, intent, context, returnFocusElem
 
           <aside className="order-2 border-t border-stone-200 bg-stone-100 p-6 lg:order-1 lg:border-r lg:border-t-0 lg:p-8">
             <div className="text-xs font-bold uppercase tracking-widest text-amber-800">How it works</div>
-            <h3 className="mt-2 font-serif text-2xl text-stone-900">Continue on WhatsApp</h3>
+            <h3 className="mt-2 font-serif text-2xl text-stone-900">Send your enquiry</h3>
             <div className="mt-6 grid gap-4 sm:grid-cols-3 lg:grid-cols-1">
               {[
                 [MessageSquareText, 'Enter your details and choose an enquiry type'],
-                [MessageCircle, 'A prefilled WhatsApp message opens'],
-                [CheckCircle2, 'Review the message and press Send yourself'],
+                [Database, 'Your enquiry is saved securely after validation'],
+                [CheckCircle2, 'A confirmation page appears after a successful save'],
               ].map(([Icon, label]) => (
                 <div key={label as string} className="flex items-center gap-3 rounded-xl border border-stone-200 bg-white p-3">
                   <div className="rounded-lg bg-amber-100 p-2 text-amber-800"><Icon className="h-5 w-5" /></div>
@@ -156,24 +174,18 @@ export function EnquiryModal({ isOpen, project, intent, context, returnFocusElem
             <div className="pr-8">
               <div className="text-xs font-bold uppercase tracking-widest text-amber-800">Enquiry</div>
               <h2 id="enquiry-dialog-title" className="mt-2 font-serif text-3xl text-stone-950">{enquiryType}</h2>
-              <p id="enquiry-dialog-description" className="mt-2 text-sm leading-relaxed text-stone-600">Opening WhatsApp does not send your enquiry or confirm availability or an appointment.</p>
+              <p id="enquiry-dialog-description" className="mt-2 text-sm leading-relaxed text-stone-600">Submit your details for the Team4 Aria team to review. This does not confirm availability or an appointment.</p>
             </div>
 
-            {submissionResult ? (
-              <div className="mt-8 rounded-2xl border border-amber-200 bg-amber-50 p-6" aria-live="polite">
-                <MessageCircle className="h-8 w-8 text-emerald-700" />
-                <h3 className="mt-3 font-serif text-xl text-stone-900">WhatsApp draft prepared</h3>
-                <p className="mt-2 text-sm leading-relaxed text-stone-700">Your enquiry has not been sent yet. In WhatsApp, review the prefilled message and press Send.</p>
-                <div className="mt-5 flex flex-wrap gap-3">
-                  <a href={submissionResult.whatsappUrl} target="_blank" rel="noopener noreferrer" className="rounded-lg bg-emerald-700 px-5 py-3 text-xs font-semibold text-white hover:bg-emerald-600">Open WhatsApp again</a>
-                  <button type="button" onClick={onClose} className="rounded-lg border border-stone-300 px-5 py-3 text-xs font-semibold text-stone-800 hover:bg-white">Close enquiry</button>
-                </div>
-              </div>
-            ) : (
-              <form className="mt-7 space-y-4" onSubmit={handleSubmit} noValidate>
+            <form className="mt-7 space-y-4" onSubmit={handleSubmit} noValidate>
+                {submissionError && (
+                  <div role="alert" className="rounded-lg border border-red-200 bg-red-50 px-3.5 py-3 text-xs leading-relaxed text-red-800">
+                    {submissionError}
+                  </div>
+                )}
                 <div>
                   <label htmlFor="enquiry-name" className="block text-xs font-semibold text-stone-700">Name *</label>
-                  <input ref={nameInputRef} id="enquiry-name" type="text" autoComplete="name" value={name} onChange={(event) => setName(event.target.value)} aria-invalid={Boolean(errors.name)} className="mt-1 w-full rounded-lg border border-stone-300 bg-white px-3.5 py-2.5 text-sm outline-none focus:border-amber-700 focus:ring-2 focus:ring-amber-700/20" />
+                  <input ref={nameInputRef} id="enquiry-name" type="text" autoComplete="name" maxLength={80} value={name} onChange={(event) => setName(event.target.value)} aria-invalid={Boolean(errors.name)} className="mt-1 w-full rounded-lg border border-stone-300 bg-white px-3.5 py-2.5 text-sm outline-none focus:border-amber-700 focus:ring-2 focus:ring-amber-700/20" />
                   {errors.name && <p className="mt-1 text-xs text-red-700">{errors.name}</p>}
                 </div>
                 <div>
@@ -183,7 +195,7 @@ export function EnquiryModal({ isOpen, project, intent, context, returnFocusElem
                 </div>
                 <div>
                   <label htmlFor="enquiry-email" className="block text-xs font-semibold text-stone-700">Email <span className="font-normal text-stone-400">(optional)</span></label>
-                  <input id="enquiry-email" type="email" autoComplete="email" value={email} onChange={(event) => setEmail(event.target.value)} aria-invalid={Boolean(errors.email)} className="mt-1 w-full rounded-lg border border-stone-300 bg-white px-3.5 py-2.5 text-sm outline-none focus:border-amber-700 focus:ring-2 focus:ring-amber-700/20" />
+                  <input id="enquiry-email" type="email" autoComplete="email" maxLength={254} value={email} onChange={(event) => setEmail(event.target.value)} aria-invalid={Boolean(errors.email)} className="mt-1 w-full rounded-lg border border-stone-300 bg-white px-3.5 py-2.5 text-sm outline-none focus:border-amber-700 focus:ring-2 focus:ring-amber-700/20" />
                   {errors.email && <p className="mt-1 text-xs text-red-700">{errors.email}</p>}
                 </div>
                 <div className="grid grid-cols-1 gap-3 sm:grid-cols-2">
@@ -191,14 +203,19 @@ export function EnquiryModal({ isOpen, project, intent, context, returnFocusElem
                   <div><label htmlFor="enquiry-type" className="block text-xs font-semibold text-stone-700">Enquiry type *</label><select id="enquiry-type" value={enquiryType} onChange={(event) => setEnquiryType(event.target.value as EnquiryIntent)} className="mt-1 w-full rounded-lg border border-stone-300 bg-white px-3 py-2.5 text-sm outline-none focus:border-amber-700">{ENQUIRY_INTENTS.map((item) => <option key={item} value={item}>{item}</option>)}</select></div>
                 </div>
                 {context && <p className="rounded-lg bg-stone-100 px-3 py-2 text-xs text-stone-600">Context: <span className="font-semibold text-stone-800">{context}</span></p>}
+                <div className="absolute left-[-10000px] top-auto h-px w-px overflow-hidden" aria-hidden="true">
+                  <label htmlFor="enquiry-website">Website</label>
+                  <input id="enquiry-website" name="website" type="text" autoComplete="off" tabIndex={-1} value={website} onChange={(event) => setWebsite(event.target.value)} />
+                </div>
                 <div>
-                  <label className="flex items-start gap-2.5 text-xs leading-relaxed text-stone-600"><input type="checkbox" checked={consent} onChange={(event) => setConsent(event.target.checked)} aria-invalid={Boolean(errors.consent)} className="mt-0.5 h-4 w-4 rounded border-stone-300 text-amber-800 focus:ring-amber-700" /><span>I agree that my entered details may be included in the WhatsApp draft so I can choose whether to send it.</span></label>
+                  <label className="flex items-start gap-2.5 text-xs leading-relaxed text-stone-600"><input type="checkbox" checked={consent} onChange={(event) => setConsent(event.target.checked)} aria-invalid={Boolean(errors.consent)} className="mt-0.5 h-4 w-4 rounded border-stone-300 text-amber-800 focus:ring-amber-700" /><span>I agree to be contacted about this enquiry using the details I provided.</span></label>
                   {errors.consent && <p className="mt-1 text-xs text-red-700">{errors.consent}</p>}
                 </div>
-                <button type="submit" className="w-full rounded-lg bg-stone-900 px-5 py-3 text-sm font-semibold text-white shadow hover:bg-stone-800">Continue on WhatsApp</button>
-                <p className="text-center text-[11px] text-stone-500">WhatsApp will open with a draft. You must press Send to deliver the enquiry.</p>
+                <button type="submit" disabled={isSubmitting} className="w-full rounded-lg bg-stone-900 px-5 py-3 text-sm font-semibold text-white shadow hover:bg-stone-800 disabled:cursor-not-allowed disabled:bg-stone-500">
+                  {isSubmitting ? 'Saving enquiry…' : 'Submit Enquiry'}
+                </button>
+                <p className="text-center text-[11px] text-stone-500">Your details are saved only after the server confirms the submission.</p>
               </form>
-            )}
           </section>
 
           <aside className="order-3 border-t border-stone-200 bg-stone-900 p-6 text-stone-100 lg:border-l lg:border-t-0 lg:p-8">

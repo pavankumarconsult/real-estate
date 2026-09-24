@@ -106,7 +106,7 @@ export const ProjectOverview: React.FC<ProjectOverviewProps> = ({ project, onOpe
                   <Phone className="h-4 w-4" /> Call Now
                 </a>
                 <button type="button" onClick={(event) => onOpenEnquiry('General enquiry', event.currentTarget)} className="inline-flex items-center justify-center gap-2 rounded-lg border border-stone-700 px-5 py-3 text-xs font-semibold text-stone-100 hover:bg-stone-800">
-                  <MessageSquareText className="h-4 w-4" /> Ask on WhatsApp
+                  <MessageSquareText className="h-4 w-4" /> Send Enquiry
                 </button>
               </div>
             </div>

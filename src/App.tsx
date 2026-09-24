@@ -1,4 +1,4 @@
-import { useCallback, useEffect, useRef, useState } from 'react';
+import { lazy, Suspense, useCallback, useEffect, useRef, useState } from 'react';
 import { PROJECTS, getProjectById } from './data/projects';
 import { Navbar } from './components/Navbar';
 import { Hero } from './components/Hero';
@@ -14,9 +14,11 @@ import { DeveloperInformationSection } from './components/DeveloperInformationSe
 import { Footer } from './components/Footer';
 import { EnquiryModal } from './components/EnquiryModal';
 import { FloatingActions } from './components/FloatingActions';
+import { ThankYouPage } from './components/ThankYouPage';
 import { EnquiryIntent, OpenEnquiryHandler } from './types/enquiry';
 
 const ENQUIRY_SESSION_KEY = 'team4-aria:enquiry-seen';
+const AdminPortal = lazy(() => import('./admin/AdminPortal'));
 
 interface EnquiryState {
   projectId: string;
@@ -25,6 +27,7 @@ interface EnquiryState {
 }
 
 export default function App() {
+  const [currentPath, setCurrentPath] = useState(window.location.pathname);
   const [currentProjectId, setCurrentProjectId] = useState(PROJECTS[0].id);
   const [enquiryState, setEnquiryState] = useState<EnquiryState | null>(null);
   const enquiryTriggerRef = useRef<HTMLElement | null>(null);
@@ -52,6 +55,13 @@ export default function App() {
   }, [currentProjectId]);
 
   useEffect(() => {
+    const handlePopState = () => setCurrentPath(window.location.pathname);
+    window.addEventListener('popstate', handlePopState);
+    return () => window.removeEventListener('popstate', handlePopState);
+  }, []);
+
+  useEffect(() => {
+    if (currentPath !== '/') return;
     if (enquirySeenInMemoryRef.current) return;
     try {
       if (window.sessionStorage.getItem(ENQUIRY_SESSION_KEY)) {
@@ -71,9 +81,40 @@ export default function App() {
     return () => {
       if (autoOpenTimerRef.current !== null) window.clearTimeout(autoOpenTimerRef.current);
     };
-  }, [currentProjectId]);
+  }, [currentPath, currentProjectId]);
+
+  const handleEnquirySuccess = useCallback((_result: { referenceId: string }, projectId: string) => {
+    window.dataLayer = window.dataLayer ?? [];
+    window.dataLayer.push({
+      event: 'lead_form_success',
+      project_id: projectId,
+    });
+    setEnquiryState(null);
+    window.history.pushState({}, '', '/thank-you');
+    setCurrentPath('/thank-you');
+    window.scrollTo({ top: 0, behavior: 'auto' });
+  }, []);
+
+  const navigate = useCallback((path: string, replace = false) => {
+    if (replace) window.history.replaceState({}, '', path);
+    else window.history.pushState({}, '', path);
+    setCurrentPath(path);
+    window.scrollTo({ top: 0, behavior: 'auto' });
+  }, []);
 
   const enquiryProject = enquiryState ? getProjectById(enquiryState.projectId) ?? currentProject : currentProject;
+
+  if (currentPath === '/admin' || currentPath.startsWith('/admin/')) {
+    return (
+      <Suspense fallback={<div className="flex min-h-screen items-center justify-center bg-[#fff8f5] text-sm text-[#635d5c]">Loading admin…</div>}>
+        <AdminPortal currentPath={currentPath} onNavigate={navigate} />
+      </Suspense>
+    );
+  }
+
+  if (currentPath === '/thank-you') {
+    return <ThankYouPage />;
+  }
 
   return (
     <div className="flex min-h-screen flex-col bg-stone-50 font-sans text-stone-900 selection:bg-amber-900 selection:text-white">
@@ -99,6 +140,7 @@ export default function App() {
         context={enquiryState?.context}
         returnFocusElement={enquiryTriggerRef.current}
         onClose={() => setEnquiryState(null)}
+        onSuccess={handleEnquirySuccess}
       />
     </div>
   );

@@ -127,7 +127,7 @@ export const PROJECTS: Project[] = [
       { question: 'Where is Team4 Aria located?', answer: 'The client-supplied location is Miyapur to Bachupally Road, opposite Nyla project.' },
       { question: 'What size range is available?', answer: 'The client-supplied size range is 1,655–2,600 sq. ft. An area type has not been specified.' },
       { question: 'When is possession expected?', answer: 'Expected possession is 2029. This is an expectation, not a guaranteed handover date.' },
-      { question: 'How can I arrange a site visit?', answer: 'Call +91 80568 85347 or continue through the enquiry form to WhatsApp. In WhatsApp, review the message and press Send.' },
+      { question: 'How can I arrange a site visit?', answer: 'Call +91 80568 85347 or submit the enquiry form. A successful save records your request for the Team4 Aria team to review; it does not confirm an appointment or availability.' },
     ],
   },
 ];

@@ -18,5 +18,5 @@
     "noUnusedLocals": true,
     "noUnusedParameters": true
   },
-  "include": ["src", "tests", "playwright.config.ts"]
+  "include": ["api", "server", "shared", "src", "tests", "playwright.config.ts"]
 }
