@@ -16,7 +16,7 @@ import { EnquiryModal } from './components/EnquiryModal';
 import { FloatingActions } from './components/FloatingActions';
 import { EnquiryIntent, OpenEnquiryHandler } from './types/enquiry';
 
-const ENQUIRY_SESSION_KEY = 'medha-ventures:enquiry-seen';
+const ENQUIRY_SESSION_KEY = 'team4-aria:enquiry-seen';
 
 interface EnquiryState {
   projectId: string;

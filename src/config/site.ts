@@ -14,7 +14,7 @@ export interface SiteConfiguration {
 }
 
 export const SITE_CONFIG: SiteConfiguration = {
-  businessName: 'Medha Ventures',
+  businessName: 'Team4 Aria',
   phoneDisplay: '+91 80568 85347',
   phoneHref: 'tel:+918056885347',
   email: 'jayapalreddy5347@gmail.com',
