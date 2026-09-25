@@ -14,7 +14,7 @@ const VALID_BODY = {
   email: 'Visitor@Example.com',
   projectId: 'team4-aria',
   projectName: 'Team4 Aria',
-  intent: 'Site visit',
+  intent: 'Request a call for a site visit',
   context: 'Landing page',
   consent: true,
   website: '',
@@ -23,6 +23,12 @@ const VALID_BODY = {
     referrerHost: 'example.com',
   },
 };
+
+const APPROVED_INTENTS = [
+  'General enquiry about booking a flat',
+  'Request a call for a site visit',
+  'Ready to buy in 2–3 weeks',
+] as const;
 
 class TestResponse implements ApiResponse {
   headers = new Map<string, string>();
@@ -74,6 +80,24 @@ test('accepts and normalizes a valid submission and returns only the reference',
   assert.equal(savedLeads[0].status, 'new');
 });
 
+test('accepts each approved enquiry choice', async () => {
+  const savedIntents: string[] = [];
+  const store: EnquiryStore = {
+    async save(lead) {
+      savedIntents.push(lead.intent);
+      return `lead-reference-${savedIntents.length}`;
+    },
+  };
+
+  for (const intent of APPROVED_INTENTS) {
+    const response = new TestResponse();
+    await createEnquiryHandler(store)(request({ ...VALID_BODY, intent }), response);
+    assert.equal(response.statusCode, 201);
+  }
+
+  assert.deepEqual(savedIntents, APPROVED_INTENTS);
+});
+
 test('rejects malformed input and a populated honeypot without writing', async () => {
   let writeCount = 0;
   const store: EnquiryStore = {
@@ -87,6 +111,7 @@ test('rejects malformed input and a populated honeypot without writing', async (
     { ...VALID_BODY, mobile: '123' },
     { ...VALID_BODY, projectName: 'Changed in browser' },
     { ...VALID_BODY, website: 'spam.example' },
+    { ...VALID_BODY, intent: 'Site visit' },
   ]) {
     const response = new TestResponse();
     await createEnquiryHandler(store)(request(body), response);

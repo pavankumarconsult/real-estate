@@ -48,7 +48,7 @@ export function SiteVisitSection({ project, onOpenEnquiry }: SiteVisitSectionPro
               <a href={getPhoneHref()} className="inline-flex w-full items-center justify-center gap-2 rounded-lg bg-amber-600 px-5 py-3 text-sm font-semibold text-white hover:bg-amber-500">
                 <Phone className="h-4 w-4" /> Call Now
               </a>
-              <button type="button" onClick={(event) => onOpenEnquiry('Site visit', event.currentTarget)} className="inline-flex w-full items-center justify-center gap-2 rounded-lg border border-stone-700 px-5 py-3 text-sm font-semibold text-stone-100 hover:bg-stone-800">
+              <button type="button" onClick={(event) => onOpenEnquiry('Request a call for a site visit', event.currentTarget)} className="inline-flex w-full items-center justify-center gap-2 rounded-lg border border-stone-700 px-5 py-3 text-sm font-semibold text-stone-100 hover:bg-stone-800">
                 <span>Open Enquiry Form</span>
                 <ArrowRight className="h-4 w-4" />
               </button>

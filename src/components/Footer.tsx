@@ -30,7 +30,7 @@ export const Footer: React.FC<FooterProps> = ({ project, onOpenEnquiry }) => (
             <li><a href="#project-details" className="hover:text-stone-100">Project details</a></li>
             <li><a href="#location" className="hover:text-stone-100">Location</a></li>
             <li><a href="#faq" className="hover:text-stone-100">FAQ</a></li>
-            <li><button type="button" onClick={(event) => onOpenEnquiry('Site visit', event.currentTarget)} className="text-left hover:text-amber-400">Site visit enquiry</button></li>
+            <li><button type="button" onClick={(event) => onOpenEnquiry('Request a call for a site visit', event.currentTarget)} className="text-left hover:text-amber-400">Site visit enquiry</button></li>
           </ul>
         </div>
 

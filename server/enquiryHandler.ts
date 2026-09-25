@@ -5,13 +5,9 @@ const PROJECT_NAMES: Record<string, string> = {
 };
 
 const ENQUIRY_INTENTS = new Set([
-  'General enquiry',
-  'Site visit',
-  'Callback request',
-  'Floor plan enquiry',
-  'Amenities tour',
-  'Pickup assistance',
-  'Brochure request',
+  'General enquiry about booking a flat',
+  'Request a call for a site visit',
+  'Ready to buy in 2–3 weeks',
 ]);
 
 export interface LeadRecord {

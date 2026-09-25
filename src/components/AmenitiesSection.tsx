@@ -27,7 +27,7 @@ export const AmenitiesSection: React.FC<AmenitiesSectionProps> = ({ project, onO
           </div>
           <button
             type="button"
-            onClick={(event) => onOpenEnquiry('Amenities tour', event.currentTarget)}
+            onClick={(event) => onOpenEnquiry('Request a call for a site visit', event.currentTarget, 'Amenities section')}
             className="inline-flex w-full items-center justify-center gap-2 rounded-lg bg-amber-600 px-5 py-3 text-sm font-semibold text-white shadow transition hover:bg-amber-500 focus-visible:outline-none focus-visible:ring-4 focus-visible:ring-amber-400/40 md:w-auto"
           >
             Plan an Amenities Tour

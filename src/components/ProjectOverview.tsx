@@ -88,6 +88,7 @@ export const ProjectOverview: React.FC<ProjectOverviewProps> = ({ project, onOpe
               <dl className="mt-6 divide-y divide-stone-800 border-y border-stone-800 text-sm">
                 {[
                   ['Size range', project.overview.sizes],
+                  ['Price', project.startingPrice],
                   ['Land area', project.overview.landParcel],
                   ['Towers', String(project.overview.towers)],
                   ['Floors', project.overview.floors],
@@ -105,7 +106,7 @@ export const ProjectOverview: React.FC<ProjectOverviewProps> = ({ project, onOpe
                 <a href={getPhoneHref()} className="inline-flex items-center justify-center gap-2 rounded-lg bg-amber-600 px-5 py-3 text-xs font-semibold text-white hover:bg-amber-500">
                   <Phone className="h-4 w-4" /> Call Now
                 </a>
-                <button type="button" onClick={(event) => onOpenEnquiry('General enquiry', event.currentTarget)} className="inline-flex items-center justify-center gap-2 rounded-lg border border-stone-700 px-5 py-3 text-xs font-semibold text-stone-100 hover:bg-stone-800">
+                <button type="button" onClick={(event) => onOpenEnquiry('General enquiry about booking a flat', event.currentTarget)} className="inline-flex items-center justify-center gap-2 rounded-lg border border-stone-700 px-5 py-3 text-xs font-semibold text-stone-100 hover:bg-stone-800">
                   <MessageSquareText className="h-4 w-4" /> Send Enquiry
                 </button>
               </div>

@@ -50,7 +50,7 @@ export function EnquiryModal({ isOpen, project, intent, context, returnFocusElem
     setMobile('');
     setEmail('');
     setProjectId(project.id);
-    setEnquiryType(ENQUIRY_INTENTS.includes(intent as (typeof ENQUIRY_INTENTS)[number]) ? intent : 'General enquiry');
+    setEnquiryType(ENQUIRY_INTENTS.includes(intent) ? intent : 'General enquiry about booking a flat');
     setConsent(false);
     setWebsite('');
     setErrors({});

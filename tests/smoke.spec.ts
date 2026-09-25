@@ -7,7 +7,7 @@ async function suppressAutoOpen(page: Page) {
 }
 
 async function completeEnquiryForm(page: Page) {
-  const dialog = page.getByRole('dialog', { name: 'General enquiry' });
+  const dialog = page.getByRole('dialog', { name: 'General enquiry about booking a flat' });
   await dialog.getByLabel('Name *').fill('Local Test Visitor');
   await dialog.getByLabel('Indian mobile number *').fill('9876543210');
   await dialog.getByLabel('Email (optional)').fill('local-test@example.com');
@@ -18,18 +18,24 @@ async function completeEnquiryForm(page: Page) {
 test('auto-opens once per session and preserves the three standalone quick actions', async ({ page }) => {
   await page.goto('/');
 
-  const dialog = page.getByRole('dialog', { name: 'General enquiry' });
+  const dialog = page.getByRole('dialog', { name: 'General enquiry about booking a flat' });
   await expect(dialog).toBeVisible();
   await expect(dialog.getByLabel('Interested project *')).toHaveValue('team4-aria');
+  await expect(dialog.getByLabel('Enquiry type *').locator('option')).toHaveText([
+    'General enquiry about booking a flat',
+    'Request a call for a site visit',
+    'Ready to buy in 2–3 weeks',
+  ]);
 
   const floatingActions = page.locator('[aria-label="Quick enquiry actions"] > *');
   await expect(floatingActions).toHaveCount(3);
-  await expect(page.getByRole('button', { name: 'Open enquiry form' })).toBeEnabled();
+  await expect(page.getByLabel('Quick enquiry actions').getByRole('button', { name: 'Open enquiry form' })).toBeEnabled();
   await expect(page.getByRole('link', { name: /Call \+91 80568 85347/ })).toHaveAttribute('href', 'tel:+918056885347');
   await expect(page.getByRole('link', { name: /Message Team4 Aria on WhatsApp/ })).toHaveAttribute('href', /wa\.me\/918056885347/);
 
   await page.keyboard.press('Escape');
   await expect(dialog).toBeHidden();
+  await expect(page.getByText('Starting from ₹1.3 crore', { exact: true })).toBeVisible();
 
   await page.reload();
   await page.waitForTimeout(1400);
@@ -48,9 +54,9 @@ test('validates locally, navigates only after confirmed save, and emits one non-
     });
   });
   await page.goto('/');
-  await page.getByRole('button', { name: 'Open enquiry form' }).click();
+  await page.getByLabel('Quick enquiry actions').getByRole('button', { name: 'Open enquiry form' }).click();
 
-  const dialog = page.getByRole('dialog', { name: 'General enquiry' });
+  const dialog = page.getByRole('dialog', { name: 'General enquiry about booking a flat' });
   await dialog.getByRole('button', { name: 'Submit Enquiry' }).click();
   await expect(dialog.getByText('Please enter your name.')).toBeVisible();
   await expect(dialog.getByText('Enter a valid 10-digit Indian mobile number.')).toBeVisible();
@@ -85,7 +91,7 @@ test('retains entered details after a database failure and retries with the same
     });
   });
   await page.goto('/');
-  await page.getByRole('button', { name: 'Open enquiry form' }).click();
+  await page.getByLabel('Quick enquiry actions').getByRole('button', { name: 'Open enquiry form' }).click();
   const dialog = await completeEnquiryForm(page);
 
   await dialog.getByRole('button', { name: 'Submit Enquiry' }).click();

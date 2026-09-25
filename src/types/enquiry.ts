@@ -1,15 +1,10 @@
 export const ENQUIRY_INTENTS = [
-  'General enquiry',
-  'Site visit',
-  'Callback request',
+  'General enquiry about booking a flat',
+  'Request a call for a site visit',
+  'Ready to buy in 2–3 weeks',
 ] as const;
 
-export type EnquiryIntent =
-  | (typeof ENQUIRY_INTENTS)[number]
-  | 'Floor plan enquiry'
-  | 'Amenities tour'
-  | 'Pickup assistance'
-  | 'Brochure request';
+export type EnquiryIntent = (typeof ENQUIRY_INTENTS)[number];
 
 export interface EnquiryPayload {
   name: string;

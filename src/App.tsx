@@ -76,7 +76,7 @@ export default function App() {
       markEnquirySeen();
       enquirySeenInMemoryRef.current = true;
       enquiryTriggerRef.current = null;
-      setEnquiryState({ projectId: currentProjectId, intent: 'General enquiry' });
+      setEnquiryState({ projectId: currentProjectId, intent: 'General enquiry about booking a flat' });
       autoOpenTimerRef.current = null;
     }, 1100);
     return () => {
@@ -149,7 +149,7 @@ export default function App() {
       <EnquiryModal
         isOpen={Boolean(enquiryState)}
         project={enquiryProject}
-        intent={enquiryState?.intent ?? 'General enquiry'}
+        intent={enquiryState?.intent ?? 'General enquiry about booking a flat'}
         context={enquiryState?.context}
         returnFocusElement={enquiryTriggerRef.current}
         onClose={() => setEnquiryState(null)}

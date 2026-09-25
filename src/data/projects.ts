@@ -51,6 +51,7 @@ export interface Project {
   tagline: string;
   developer: string | null;
   reraNumber: string | null;
+  startingPrice: string;
   status: string;
   possessionDate: string;
   brochureUrl: string | null;
@@ -85,16 +86,17 @@ export const PROJECTS: Project[] = [
     id: 'team4-aria',
     slug: 'team4-aria',
     name: 'Team4 Aria',
-    tagline: 'Miyapur to Bachupally Road, opposite Nyla project',
+    tagline: 'Miyapur to Bachupally Road',
     developer: null,
     reraNumber: 'P02400010543',
+    startingPrice: 'Starting from ₹1.3 crore',
     status: 'Expected possession',
     possessionDate: '2029',
     brochureUrl: null,
     location: {
       area: 'Miyapur to Bachupally Road',
       city: '',
-      address: 'Miyapur to Bachupally Road, opposite Nyla project',
+      address: 'Miyapur to Bachupally Road',
       pincode: '',
     },
     overview: {
@@ -109,7 +111,7 @@ export const PROJECTS: Project[] = [
       ceilingHeight: '',
       mainDoorHeight: '',
       vaastu: '',
-      description: 'Team4 Aria is located on Miyapur to Bachupally Road, opposite Nyla project. Client-supplied project details list 12.5 acres, 7 towers, 48 floors, 70% open space, residences from 1,655–2,600 sq. ft., and expected possession in 2029.',
+      description: 'Team4 Aria is located on Miyapur to Bachupally Road. Client-supplied project details list 12.5 acres, 7 towers, 48 floors, 70% open space, residences from 1,655–2,600 sq. ft., and expected possession in 2029.',
     },
     heroImage: HERO_SLIDES[0].src,
     galleryImages: PROJECT_GALLERY_MEDIA,
@@ -124,7 +126,7 @@ export const PROJECTS: Project[] = [
     connectivity: [],
     specifications: [],
     faqs: [
-      { question: 'Where is Team4 Aria located?', answer: 'The client-supplied location is Miyapur to Bachupally Road, opposite Nyla project.' },
+      { question: 'Where is Team4 Aria located?', answer: 'The client-supplied location is Miyapur to Bachupally Road.' },
       { question: 'What size range is available?', answer: 'The client-supplied size range is 1,655–2,600 sq. ft. An area type has not been specified.' },
       { question: 'When is possession expected?', answer: 'Expected possession is 2029. This is an expectation, not a guaranteed handover date.' },
       { question: 'How can I arrange a site visit?', answer: 'Call +91 80568 85347 or submit the enquiry form. A successful save records your request for the Team4 Aria team to review; it does not confirm an appointment or availability.' },

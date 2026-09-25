@@ -15,7 +15,7 @@ export function FloatingActions({ project, onOpenEnquiry }: FloatingActionsProps
     <div className="fixed bottom-24 right-3 z-40 flex flex-col gap-2 sm:bottom-6 sm:right-5" aria-label="Quick enquiry actions">
       <button
         type="button"
-        onClick={(event) => onOpenEnquiry('General enquiry', event.currentTarget)}
+        onClick={(event) => onOpenEnquiry('General enquiry about booking a flat', event.currentTarget)}
         className={`${actionClass} bg-stone-900 text-amber-300 hover:bg-stone-800`}
         aria-label="Open enquiry form"
         title="Enquiry"

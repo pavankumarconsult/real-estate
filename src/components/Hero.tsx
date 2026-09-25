@@ -110,7 +110,7 @@ export const Hero: React.FC<HeroProps> = ({ project, onOpenEnquiry }) => {
           </a>
           <button
             type="button"
-            onClick={(event) => onOpenEnquiry('Site visit', event.currentTarget)}
+            onClick={(event) => onOpenEnquiry('Request a call for a site visit', event.currentTarget)}
             className="inline-flex items-center gap-2 rounded-lg border border-stone-300/50 bg-stone-950/45 px-5 py-3.5 text-sm font-medium text-stone-100 backdrop-blur-sm transition-colors hover:border-stone-100 hover:bg-stone-800/90 hover:text-white"
           >
             <MessageSquareText className="h-4 w-4" aria-hidden="true" />

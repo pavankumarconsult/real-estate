@@ -90,7 +90,7 @@ export const FloorPlansSection: React.FC<FloorPlansSectionProps> = ({ project, o
         </p>
         <button
           type="button"
-          onClick={(event) => onOpenEnquiry('Floor plan enquiry', event.currentTarget)}
+          onClick={(event) => onOpenEnquiry('General enquiry about booking a flat', event.currentTarget, 'Floor plans section')}
           className="inline-flex w-full shrink-0 items-center justify-center gap-2 rounded-lg bg-stone-900 px-5 py-3 text-xs font-semibold text-white transition hover:bg-stone-800 focus-visible:outline-none focus-visible:ring-4 focus-visible:ring-amber-400/30 sm:w-auto"
         >
           <MessageSquareText className="h-4 w-4 text-amber-400" aria-hidden="true" />
